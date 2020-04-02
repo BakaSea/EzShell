@@ -11,27 +11,27 @@ CommandWC::~CommandWC() {
 }
 
 void CommandWC::count(Content &A) {
-    ifstream file(A.file, ios::in);
+    ifstream file(A.file, ios::in | ios::binary);
     if (file) {
         file.seekg(0, ios::end);
         A.bytes = file.tellg();
         file.seekg(0, ios::beg);
-        char ch;
-        int length = 0, flag = 0;
-        while (file.get(ch)) {
-            A.chars++;
-            if (ch == '\n') {
+        char *buffer = new char[A.bytes];
+        file.read(buffer, A.bytes);
+        A.chars = file.gcount();
+        for (int i = 0, length = 0, flag = 0; i < A.bytes; ++i) {
+            if (buffer[i] == '\n') {
                 A.maxLine = max(A.maxLine, length);
-                length = 0;
                 A.lines++;
+                length = 0;
             } else {
                 length++;
             }
-            if (ch != ' ' && ch != '\t' && ch != '\n' && !flag) {
+            if (buffer[i] != ' ' && buffer[i] != '\t' && buffer[i] != '\n' && !flag) {
                 A.words++;
                 flag = 1;
             }
-            if (ch == ' ' || ch == '\t' || ch == '\n') flag = 0;
+            if (buffer[i] == ' ' || buffer[i] == '\t' || buffer[i] == '\n') flag = 0;
         }
         file.close();
     } else {
@@ -50,21 +50,19 @@ void CommandWC::run() {
     } else for (int i = 0; i < opt.size(); ++i) {
         if (opt[i] == "-c") {
             _c = true;
-        }
-        if (opt[i] == "-m") {
+        } else if (opt[i] == "-m") {
             _m = true;
-        }
-        if (opt[i] == "-l") {
+        } else if (opt[i] == "-l") {
             _l = true;
-        }
-        if (opt[i] == "-L") {
+        } else if (opt[i] == "-L") {
             _L = true;
-        }
-        if (opt[i] == "-w") {
+        } else if (opt[i] == "-w") {
             _w = true;
-        }
-        if (opt[i] == "--help") {
+        } else if (opt[i] == "--help") {
 
+        } else {
+            cout << "wc: unrecognized option \'" << opt[i] << "\'" << endl;
+            cout << "Try \'wc --help\' for more information" << endl;
         }
     }
     total = Content("total");
@@ -72,8 +70,8 @@ void CommandWC::run() {
         if (contents[i].exist) {
            if (_l) cout << contents[i].lines << ' ';
            if (_w) cout << contents[i].words << ' ';
-           if (_c) cout << contents[i].bytes << ' ';
            if (_m) cout << contents[i].chars << ' ';
+           if (_c) cout << contents[i].bytes << ' ';
            if (_L) cout << contents[i].maxLine << ' ';
            cout << contents[i].file << endl;
    
