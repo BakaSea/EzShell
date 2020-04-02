@@ -1,10 +1,12 @@
 #ifndef COMMANDWC_H
 #define COMMANDWC_H
 #include "CommandBase.h"
+#include <string>
+using namespace std;
 
 class CommandWC : public CommandBase {
 public:
-    CommandWC();
+    CommandWC(string str);
     ~CommandWC();
 };
 

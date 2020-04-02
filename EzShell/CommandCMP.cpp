@@ -1,7 +1,7 @@
 #include "CommandCMP.h"
 
-CommandCMP::CommandCMP() {
-
+CommandCMP::CommandCMP(string str) : CommandBase(str) {
+    
 }
 
 CommandCMP::~CommandCMP() {

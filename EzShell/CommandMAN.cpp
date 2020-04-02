@@ -1,6 +1,6 @@
 #include "CommandMAN.h"
 
-CommandMAN::CommandMAN() {
+CommandMAN::CommandMAN(string str) : CommandBase(str) {
 
 }
 

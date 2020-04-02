@@ -1,6 +1,6 @@
 #include "CommandCAT.h"
 
-CommandCAT::CommandCAT() {
+CommandCAT::CommandCAT(string str) : CommandBase(str) {
 
 }
 

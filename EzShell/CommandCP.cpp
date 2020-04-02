@@ -1,6 +1,6 @@
 #include "CommandCP.h"
 
-CommandCP::CommandCP() {
+CommandCP::CommandCP(string str) : CommandBase(str) {
 
 }
 
