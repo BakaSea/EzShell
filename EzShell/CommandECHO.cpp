@@ -6,7 +6,7 @@ CommandECHO::CommandECHO(string str) : CommandBase(str) {
 }
 
 CommandECHO::~CommandECHO() {
-
+    
 }
 
 void CommandECHO::run() {

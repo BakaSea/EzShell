@@ -8,6 +8,10 @@ class CommandCMP : public CommandBase {
 public:
     CommandCMP(string str);
     ~CommandCMP();
+    void run();
+private:
+    bool _b, _l;
+    int convert(int x);
 };
 
 #endif
