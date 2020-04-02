@@ -21,6 +21,7 @@ int Command::find(string str) {
     if (s == "wc") command = new CommandWC(str);
     if (s == "cat") command = new CommandCAT(str);
     if (s == "man") command = new CommandMAN(str);
+    if (s == "echo") command = new CommandECHO(str);
     if (s == "exit") return -1;
     if (s.empty()) return -2;
     return command != NULL;

@@ -5,6 +5,7 @@
 #include "CommandWC.h"
 #include "CommandCAT.h"
 #include "CommandMAN.h"
+#include "CommandECHO.h"
 #include "CommandBase.h"
 #include <string>
 using namespace std;
