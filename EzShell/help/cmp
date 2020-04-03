@@ -1,0 +1,18 @@
+NAME
+       cmp - compare two files byte by byte
+
+SYNOPSIS
+       cmp [OPTION]... FILE1 FILE2
+
+DESCRIPTION
+       Compare two files byte by byte.
+
+       Mandatory arguments to long options are mandatory for short options too.
+
+       -b, --print-bytes
+              print differing bytes
+
+       -l, --verbose
+              output byte numbers and differing byte values
+
+       --help display this help and exit

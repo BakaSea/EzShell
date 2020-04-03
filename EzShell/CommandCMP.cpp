@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sys/stat.h>
+#include "CommandMAN.h"
 using namespace std;
 
 CommandCMP::CommandCMP(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
@@ -30,7 +31,9 @@ void CommandCMP::run() {
         } else if (opt[i] == "-l") {
             _l = true;
         } else if (opt[i] == "--help") {
-
+            CommandMAN *man = new CommandMAN("man cmp", dirHelper);
+            man->run();
+            return;
         } else {
             cout << "cmp: unrecognized option \'" << opt[i] << "\'" << endl;
             cout << "Try \'cmp --help\' for more information" << endl;

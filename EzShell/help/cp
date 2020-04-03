@@ -1,0 +1,22 @@
+NAME
+       cp - copy files and directories
+
+SYNOPSIS
+       cp [OPTION]... [-T] SOURCE DEST
+       cp [OPTION]... SOURCE... DIRECTORY
+
+DESCRIPTION
+       Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.
+
+       Mandatory arguments to long options are mandatory for short options too.
+
+       -f, --force
+              if an existing destination file cannot be opened, remove it and try again
+
+       -i, --interactive
+              prompt before overwrite
+
+       -R, -r, --recursive
+              copy directories recursively
+
+       --help display this help and exit

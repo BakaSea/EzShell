@@ -1,6 +1,7 @@
 #include "CommandCD.h"
 #include <iostream>
 #include <dirent.h>
+#include "CommandMAN.h"
 
 CommandCD::CommandCD(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
 
@@ -36,7 +37,9 @@ bool CommandCD::checkPath(string str) {
 void CommandCD::run() {
     for (int i = 0; i < opt.size(); ++i) {
         if (opt[i] == "--help") {
-
+            CommandMAN *man = new CommandMAN("man cd", dirHelper);
+            man->run();
+            return;
         } else {
             cout << "cd: unrecognized option \'" << opt[i] << "\'" << endl;
             cout << "Try \'cd --help\' for more information" << endl;

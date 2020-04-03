@@ -30,6 +30,7 @@ int Command::find(string str) {
     if (s == "mkdir") command = new CommandMKDIR(str, dirHelper);
     if (s == "exit") return -1;
     if (s.empty()) return -2;
+    if (s.size() >= 2 && s[0] == '.' && s[1] == '/') return -3;
     return command != NULL;
 }
 

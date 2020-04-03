@@ -4,6 +4,7 @@
 #include <fstream>
 #include <dirent.h>
 #include <string.h>
+#include "CommandMAN.h"
 using namespace std;
 
 CommandCP::CommandCP(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
@@ -117,7 +118,9 @@ void CommandCP::run() {
         } else if (opt[i] == "-i") {
             _i = true;
         } else if (opt[i] == "--help") {
-
+            CommandMAN *man = new CommandMAN("man cp", dirHelper);
+            man->run();
+            return;
         } else {
             cout << "cp: unrecognized option \'" << opt[i] << "\'" << endl;
             cout << "Try \'cp --help\' for more information" << endl;

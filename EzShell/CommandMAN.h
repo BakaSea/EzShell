@@ -8,6 +8,9 @@ class CommandMAN : public CommandBase {
 public:
     CommandMAN(string str, DirHelper *dirHelper);
     ~CommandMAN();
+    void run();
+private:
+    void show(string str);
 };
 
 #endif

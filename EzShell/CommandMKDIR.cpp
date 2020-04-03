@@ -2,6 +2,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <iostream>
+#include "CommandMAN.h"
 using namespace std;
 
 CommandMKDIR::CommandMKDIR(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
@@ -15,7 +16,9 @@ CommandMKDIR::~CommandMKDIR() {
 void CommandMKDIR::run() {
     for (int i = 0; i < opt.size(); ++i) {
         if (opt[i] == "--help") {
-
+            CommandMAN *man = new CommandMAN("man mkdir", dirHelper);
+            man->run();
+            return;
         } else {
             cout << "mkdir: unrecognized option \'" << opt[i] << "\'" << endl;
             cout << "Try \'mkdir --help\' for more information" << endl;

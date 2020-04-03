@@ -1,6 +1,7 @@
 #include "CommandLS.h"
 #include <iostream>
 #include <dirent.h>
+#include "CommandMAN.h"
 
 CommandLS::CommandLS(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
 
@@ -27,7 +28,9 @@ void CommandLS::show(string str) {
 void CommandLS::run() {
     for (int i = 0; i < opt.size(); ++i) {
         if (opt[i] == "--help") {
-
+            CommandMAN *man = new CommandMAN("man ls", dirHelper);
+            man->run();
+            return;
         } else {
             cout << "ls: unrecognized option \'" << opt[i] << "\'" << endl;
             cout << "Try \'ls --help\' for more information" << endl;

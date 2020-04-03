@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include "DirHelper.h"
+#include "WorkShell.h"
 using namespace std;
 
 UI::UI() {
@@ -25,6 +26,9 @@ void UI::show() {
             cout << "Unknown command." << endl;
         } else if (k == -1) {
             break;
+        } else if (k == -3) {
+            WorkShell *shell = new WorkShell(str, dirHelper);
+            shell->run();
         } else if (k != -2) {
             command->run();
         }

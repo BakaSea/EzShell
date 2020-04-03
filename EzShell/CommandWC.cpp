@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sys/stat.h>
+#include "CommandMAN.h"
 using namespace std;
 
 CommandWC::CommandWC(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
@@ -67,7 +68,9 @@ void CommandWC::run() {
         } else if (opt[i] == "-w") {
             _w = true;
         } else if (opt[i] == "--help") {
-
+            CommandMAN *man = new CommandMAN("man wc", dirHelper);
+            man->run();
+            return;
         } else {
             cout << "wc: unrecognized option \'" << opt[i] << "\'" << endl;
             cout << "Try \'wc --help\' for more information" << endl;

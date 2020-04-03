@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sys/stat.h>
+#include "CommandMAN.h"
 using namespace std;
 
 CommandCAT::CommandCAT(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
@@ -56,7 +57,9 @@ void CommandCAT::run() {
         } else if (opt[i] == "-E") {
             _E = true;
         } else if (opt[i] == "--help") {
-
+            CommandMAN *man = new CommandMAN("man cat", dirHelper);
+            man->run();
+            return;
         } else {
             cout << "cat: unrecognized option \'" << opt[i] << "\'" << endl;
             cout << "Try \'cat --help\' for more information" << endl;
