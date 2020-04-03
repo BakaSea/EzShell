@@ -14,9 +14,9 @@ private:
     bool _r, _f, _i;
     vector<string> cpFile;
     vector<bool> mk;
-    void copy(string src, string dest, string direct);
-    void copyFile(string src, string dest);
-    void copyDir(string src, string direct);
+    void copy(string res, string dest, string direct);
+    void copyFile(string res, string dest);
+    void copyDir(string res, string direct);
 };
 
 #endif
