@@ -9,6 +9,9 @@ public:
     ~DirHelper();
     string getPath();
     void initPath();
+    void setPath(string str);
+    string back(string str);
+    string backToUser();
 private:
     string path;
 };

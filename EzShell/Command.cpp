@@ -24,6 +24,10 @@ int Command::find(string str) {
     if (s == "cat") command = new CommandCAT(str, dirHelper);
     if (s == "man") command = new CommandMAN(str, dirHelper);
     if (s == "echo") command = new CommandECHO(str, dirHelper);
+    if (s == "ls") command = new CommandLS(str, dirHelper);
+    if (s == "pwd") command = new CommandPWD(str, dirHelper);
+    if (s == "cd") command = new CommandCD(str, dirHelper);
+    if (s == "mkdir") command = new CommandMKDIR(str, dirHelper);
     if (s == "exit") return -1;
     if (s.empty()) return -2;
     return command != NULL;

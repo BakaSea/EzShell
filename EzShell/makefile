@@ -1,8 +1,10 @@
 main:main.o UI.h UI.o Command.h Command.o CommandBase.h CommandBase.o CommandCP.h CommandCP.o CommandCMP.h CommandCMP.o \
 	CommandWC.h CommandWC.o CommandCAT.h CommandCAT.o CommandMAN.h CommandMAN.o CommandECHO.h CommandECHO.o \
+	CommandLS.h CommandLS.o CommandPWD.h CommandPWD.o CommandCD.h CommandCD.o CommandMKDIR.h CommandMKDIR.o \
 	DirHelper.h DirHelper.o
 	g++ main.o UI.h UI.o Command.h Command.o CommandBase.h CommandBase.o CommandCP.h CommandCP.o CommandCMP.h CommandCMP.o \
 		CommandWC.h CommandWC.o CommandCAT.h CommandCAT.o CommandMAN.h CommandMAN.o CommandECHO.h CommandECHO.o \
+		CommandLS.h CommandLS.o CommandPWD.h CommandPWD.o CommandCD.h CommandCD.o CommandMKDIR.h CommandMKDIR.o \
 		DirHelper.h DirHelper.o -o EzShell
 main.o:
 	g++ -c main.cpp
@@ -26,6 +28,14 @@ CommandMAN.o:CommandMAN.cpp
 	g++ -c CommandMAN.cpp
 CommandECHO.o:CommandECHO.cpp
 	g++ -c CommandECHO.cpp
+CommandLS.o:CommandLS.cpp
+	g++ -c CommandLS.cpp
+CommandPWD.o:CommandPWD.cpp
+	g++ -c CommandPWD.cpp
+CommandCD.o:CommandCD.cpp
+	g++ -c CommandCD.cpp
+CommandMKDIR.o:CommandMKDIR.cpp
+	g++ -c CommandMKDIR.cpp
 clean:
 	rm *.o
 	rm EzShell

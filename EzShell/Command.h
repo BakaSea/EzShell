@@ -7,6 +7,10 @@
 #include "CommandMAN.h"
 #include "CommandECHO.h"
 #include "CommandBase.h"
+#include "CommandLS.h"
+#include "CommandPWD.h"
+#include "CommandCD.h"
+#include "CommandMKDIR.h"
 #include "DirHelper.h"
 #include <string>
 using namespace std;
