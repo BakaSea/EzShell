@@ -1,7 +1,7 @@
 #include "CommandECHO.h"
 #include <iostream>
 
-CommandECHO::CommandECHO(string str) : CommandBase(str) {
+CommandECHO::CommandECHO(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
 
 }
 

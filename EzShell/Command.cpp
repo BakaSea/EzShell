@@ -1,10 +1,12 @@
 #include "Command.h"
 
-Command::Command() {
+Command::Command(DirHelper *dirHelper) : dirHelper(dirHelper) {
 
 }
 
 Command::~Command() {
+    dirHelper = NULL;
+    delete dirHelper;
     delete command;
 }
 
@@ -16,12 +18,12 @@ int Command::find(string str) {
         else break;
     }
     command = NULL;
-    if (s == "cp") command = new CommandCP(str);
-    if (s == "cmp") command = new CommandCMP(str);
-    if (s == "wc") command = new CommandWC(str);
-    if (s == "cat") command = new CommandCAT(str);
-    if (s == "man") command = new CommandMAN(str);
-    if (s == "echo") command = new CommandECHO(str);
+    if (s == "cp") command = new CommandCP(str, dirHelper);
+    if (s == "cmp") command = new CommandCMP(str, dirHelper);
+    if (s == "wc") command = new CommandWC(str, dirHelper);
+    if (s == "cat") command = new CommandCAT(str, dirHelper);
+    if (s == "man") command = new CommandMAN(str, dirHelper);
+    if (s == "echo") command = new CommandECHO(str, dirHelper);
     if (s == "exit") return -1;
     if (s.empty()) return -2;
     return command != NULL;

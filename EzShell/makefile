@@ -1,9 +1,15 @@
-main:main.o UI.h UI.o Command.h Command.o CommandBase.h CommandBase.o CommandCP.h CommandCP.o CommandCMP.h CommandCMP.o CommandWC.h CommandWC.o CommandCAT.h CommandCAT.o CommandMAN.h CommandMAN.o CommandECHO.h CommandECHO.o
-	g++ main.o UI.h UI.o Command.h Command.o CommandBase.h CommandBase.o CommandCP.h CommandCP.o CommandCMP.h CommandCMP.o CommandWC.h CommandWC.o CommandCAT.h CommandCAT.o CommandMAN.h CommandMAN.o CommandECHO.h CommandECHO.o -o EzShell
+main:main.o UI.h UI.o Command.h Command.o CommandBase.h CommandBase.o CommandCP.h CommandCP.o CommandCMP.h CommandCMP.o \
+	CommandWC.h CommandWC.o CommandCAT.h CommandCAT.o CommandMAN.h CommandMAN.o CommandECHO.h CommandECHO.o \
+	DirHelper.h DirHelper.o
+	g++ main.o UI.h UI.o Command.h Command.o CommandBase.h CommandBase.o CommandCP.h CommandCP.o CommandCMP.h CommandCMP.o \
+		CommandWC.h CommandWC.o CommandCAT.h CommandCAT.o CommandMAN.h CommandMAN.o CommandECHO.h CommandECHO.o \
+		DirHelper.h DirHelper.o -o EzShell
 main.o:
 	g++ -c main.cpp
 UI.o:UI.cpp
 	g++ -c UI.cpp
+DirHelper.o:DirHelper.cpp
+	g++ -c DirHelper.cpp
 Command.o:Command.cpp
 	g++ -c Command.cpp
 CommandBase.o:CommandBase.cpp

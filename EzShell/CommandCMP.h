@@ -6,7 +6,7 @@ using namespace std;
 
 class CommandCMP : public CommandBase {
 public:
-    CommandCMP(string str);
+    CommandCMP(string str, DirHelper *dirHelper);
     ~CommandCMP();
     void run();
 private:

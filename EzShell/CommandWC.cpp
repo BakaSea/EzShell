@@ -1,8 +1,10 @@
 #include "CommandWC.h"
 #include <iostream>
 #include <fstream>
+#include <sys/stat.h>
+using namespace std;
 
-CommandWC::CommandWC(string str) : CommandBase(str) {
+CommandWC::CommandWC(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
     contents.clear();
 }
 
@@ -10,8 +12,14 @@ CommandWC::~CommandWC() {
     contents.clear();
 }
 
-void CommandWC::count(Content &A) {
-    ifstream file(A.file, ios::in | ios::binary);
+void CommandWC::count(CommandWC::Content &A) {
+    struct stat path;
+    stat((dirHelper->getPath()+"/"+A.file).c_str(), &path);
+    if (S_ISDIR(path.st_mode)) {
+        cout << "wc: " << A.file << ": Is a directory" << endl;
+        return;
+    }
+    ifstream file(dirHelper->getPath()+"/"+A.file, ios::in | ios::binary);
     if (file) {
         file.seekg(0, ios::end);
         A.bytes = file.tellg();
@@ -63,6 +71,7 @@ void CommandWC::run() {
         } else {
             cout << "wc: unrecognized option \'" << opt[i] << "\'" << endl;
             cout << "Try \'wc --help\' for more information" << endl;
+            return;
         }
     }
     total = Content("total");

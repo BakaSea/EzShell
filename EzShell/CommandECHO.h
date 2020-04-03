@@ -6,7 +6,7 @@ using namespace std;
 
 class CommandECHO : public CommandBase {
 public:
-    CommandECHO(string str);
+    CommandECHO(string str, DirHelper *dirHelper);
     ~CommandECHO();
     void run();
 };

@@ -1,8 +1,10 @@
 #include "CommandCMP.h"
 #include <iostream>
 #include <fstream>
+#include <sys/stat.h>
+using namespace std;
 
-CommandCMP::CommandCMP(string str) : CommandBase(str) {
+CommandCMP::CommandCMP(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
     
 }
 
@@ -21,6 +23,20 @@ int CommandCMP::convert(int x) {
 }
 
 void CommandCMP::run() {
+    _b = _l = false;
+    for (int i = 0; i < opt.size(); ++i) {
+        if (opt[i] == "-b") {
+            _b = true;
+        } else if (opt[i] == "-l") {
+            _l = true;
+        } else if (opt[i] == "--help") {
+
+        } else {
+            cout << "cmp: unrecognized option \'" << opt[i] << "\'" << endl;
+            cout << "Try \'cmp --help\' for more information" << endl;
+            return;
+        }
+    }
     if (files.size() < 2) {
         cout << "Compared files are less than 2" << endl;
         return;
@@ -29,15 +45,18 @@ void CommandCMP::run() {
         cout << "Compared files are more than 2" << endl;
         return;
     }
-    _b = _l = false;
-    for (int i = 0; i < opt.size(); ++i) {
-        if (opt[i] == "-b") {
-            _b = true;
-        } else if (opt[i] == "-l") {
-            _l = true;
-        }
+    struct stat path1, path2;
+    stat((dirHelper->getPath()+"/"+files[0]).c_str(), &path1);
+    stat((dirHelper->getPath()+"/"+files[1]).c_str(), &path2);
+    if (S_ISDIR(path1.st_mode)) {
+        cout << "cmp: " << files[0] << ": Is a directory" << endl;
+        return;
     }
-    ifstream file1(files[0], ios::in | ios::binary), file2(files[1], ios::in | ios::binary);
+    if (S_ISDIR(path2.st_mode)) {
+        cout << "cmp: " << files[1] << ": Is a directory" << endl;
+        return;
+    }
+    ifstream file1(dirHelper->getPath()+"/"+files[0], ios::in | ios::binary), file2(dirHelper->getPath()+"/"+files[1], ios::in | ios::binary);
     if (file1 && file2) {
         file1.seekg(0, ios::end);
         file2.seekg(0, ios::end);
@@ -54,7 +73,15 @@ void CommandCMP::run() {
                 if (buffer1[i] != buffer2[i]) {
                     cout << files[0] << " "  << files[1] << " differ: byte " << i+1 << ", line " << line;
                     if (_b) {
-                        cout << " is " << convert(buffer1[i]) << " " << buffer1[i] << convert(buffer2[i]) << " " << buffer2[i];
+                        int c1 = convert(buffer1[i]), c2 = convert(buffer2[i]);
+                        string s1 = string(), s2 = string();
+                        s1.push_back(buffer1[i]);
+                        s2.push_back(buffer2[i]);
+                        if (buffer1[i] == '\n') s1 = "^J";
+                        if (buffer1[i] == '\r') s1 = "^M";
+                        if (buffer2[i] == '\n') s2 = "^J";
+                        if (buffer2[i] == '\r') s2 = "^M";
+                        cout << " is " << c1 << " " << s1 << " " << c2 << " " << s2;
                     }
                     cout << endl;
                     flag = 1;
@@ -68,10 +95,18 @@ void CommandCMP::run() {
             int size = min(size1, size2);
             for (int i = 0; i < size; ++i) {
                 if (buffer1[i] != buffer2[i]) {
+                    int c1 = convert(buffer1[i]), c2 = convert(buffer2[i]);
+                    string s1 = string(), s2 = string();
+                    s1.push_back(buffer1[i]);
+                    s2.push_back(buffer2[i]);
+                    if (buffer1[i] == '\n') s1 = "^J";
+                    if (buffer1[i] == '\r') s1 = "^M";
+                    if (buffer2[i] == '\n') s2 = "^J";
+                    if (buffer2[i] == '\r') s2 = "^M";
                     if (_b) {
-                        cout << i+1 << " " << convert(buffer1[i]) << " " << buffer1[i] << " " << convert(buffer2[i]) << " " << buffer2[i] << endl;
+                        cout << i+1 << " " << c1 << " " << s1 << " " << c2 << " " << s2 << endl;
                     } else {
-                        cout << i+1 << " " << convert(buffer1[i]) << " " << convert(buffer2[i]) << endl;
+                        cout << i+1 << " " << c1 << " " << c2 << endl;
                     }
                 }
             }

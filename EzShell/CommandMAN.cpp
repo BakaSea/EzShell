@@ -1,6 +1,6 @@
 #include "CommandMAN.h"
 
-CommandMAN::CommandMAN(string str) : CommandBase(str) {
+CommandMAN::CommandMAN(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
 
 }
 

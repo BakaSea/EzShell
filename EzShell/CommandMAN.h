@@ -6,7 +6,7 @@ using namespace std;
 
 class CommandMAN : public CommandBase {
 public:
-    CommandMAN(string str);
+    CommandMAN(string str, DirHelper *dirHelper);
     ~CommandMAN();
 };
 

@@ -1,6 +1,6 @@
 #include "CommandBase.h"
 
-CommandBase::CommandBase(string str) : str(str) {
+CommandBase::CommandBase(string str, DirHelper *dirHelper) : str(str), dirHelper(dirHelper) {
     splitCommand();
 }
 
@@ -8,6 +8,8 @@ CommandBase::~CommandBase() {
     command.clear();
     files.clear();
     opt.clear();
+    dirHelper = NULL;
+    delete dirHelper;
 }
 
 void CommandBase::run() {

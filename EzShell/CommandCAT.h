@@ -6,7 +6,7 @@ using namespace std;
 
 class CommandCAT : public CommandBase {
 public:
-    CommandCAT(string str);
+    CommandCAT(string str, DirHelper *dirHelper);
     ~CommandCAT();
     void run();
 private:

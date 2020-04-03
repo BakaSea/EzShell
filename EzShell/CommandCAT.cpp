@@ -1,8 +1,10 @@
 #include "CommandCAT.h"
 #include <iostream>
 #include <fstream>
+#include <sys/stat.h>
+using namespace std;
 
-CommandCAT::CommandCAT(string str) : CommandBase(str) {
+CommandCAT::CommandCAT(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
 
 }
 
@@ -18,7 +20,13 @@ bool CommandCAT::checkBlank(string str) {
 }
 
 void CommandCAT::display(string str) {
-    ifstream file(str);
+    struct stat path;
+    stat((dirHelper->getPath()+"/"+str).c_str(), &path);
+    if (S_ISDIR(path.st_mode)) {
+        cout << "cat: " << str << ": Is a directory" << endl;
+        return;
+    } 
+    ifstream file(dirHelper->getPath()+"/"+str);
     if (file) {
         string s = string();
         int curBlank = 0, preBlank = 0, num = 0;
@@ -52,6 +60,7 @@ void CommandCAT::run() {
         } else {
             cout << "cat: unrecognized option \'" << opt[i] << "\'" << endl;
             cout << "Try \'cat --help\' for more information" << endl;
+            return;
         }
     }
     for (int i = 0; i < files.size(); ++i) {

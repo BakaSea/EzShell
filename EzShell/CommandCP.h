@@ -6,7 +6,7 @@ using namespace std;
 
 class CommandCP : public CommandBase {
 public:
-    CommandCP(string str);
+    CommandCP(string str, DirHelper *dirHelper);
     ~CommandCP();
 };
 
