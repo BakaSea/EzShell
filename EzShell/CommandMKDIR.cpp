@@ -30,23 +30,9 @@ void CommandMKDIR::run() {
         cout << "Try \'mkdir --help\' for more information." << endl;
         return;
     }
-    mk.clear();
-    mk.push_back(1);
-    for (int i = 0, j = 1; j < files.size(); ++j) {
-        if (files[i][files[i].size()-1] == '\\') {
-            files[i].pop_back();
-            files[i] += " "+files[j];
-            mk.push_back(0);
-        } else {
-            i = j;
-            mk.push_back(1);
-        }
-    }
     for (int i = 0; i < files.size(); ++i) {
-        if (mk[i]) {
-            if (mkdir(files[i].c_str(), 0755)) {
-                cout << "mkdir: cannot create directory \'"+files[i]+"\': No such file or directory" << endl;
-            }
+        if (mkdir(files[i].c_str(), 0755)) {
+            cout << "mkdir: cannot create directory \'"+files[i]+"\': No such file or directory" << endl;
         }
     }
 }

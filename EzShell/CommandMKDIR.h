@@ -11,9 +11,6 @@ public:
     CommandMKDIR(string str, DirHelper *dirHelper);
     ~CommandMKDIR();
     void run();
-private:
-    vector<string> path;
-    vector<bool> mk;
 };
 
 #endif

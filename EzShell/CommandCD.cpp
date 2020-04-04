@@ -47,12 +47,6 @@ void CommandCD::run() {
         }
     }
     if (files.empty()) files.push_back("~");
-    for (int i = 1; i < files.size(); ++i) {
-        if (files[0][files[0].size()-1] == '\\') {
-            files[0].pop_back();
-            files[0] += " "+files[i];
-        } else break;
-    }
     splitPath(files[0]);
     string cur = dirHelper->getPath();
     bool flag = true;
@@ -74,7 +68,8 @@ void CommandCD::run() {
                 break;
             }
         } else {
-            cur += "/"+path[i];
+            if (cur != "/") cur += "/"+path[i];
+            else cur += path[i];
             if (!checkPath(cur)) {
                 cout << "cd: can't cd to " << cur << endl;
                 flag = false;

@@ -1,6 +1,8 @@
 #include "CommandLS.h"
 #include <iostream>
 #include <dirent.h>
+#include <fstream>
+#include <algorithm>
 #include "CommandMAN.h"
 
 CommandLS::CommandLS(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
@@ -8,21 +10,52 @@ CommandLS::CommandLS(string str, DirHelper *dirHelper) : CommandBase(str, dirHel
 }
 
 CommandLS::~CommandLS() {
-
+    contents.clear();
 }
 
-void CommandLS::show(string str) {
+void CommandLS::getInfo(string str) {
+    Content cur(str);
     DIR *dir = opendir((dirHelper->getPath()+"/"+str).c_str());
     if (dir == NULL) {
-        cout << "ls: cannot access \'" << str << "\': No such file or directory" << endl;
-        return;
+        ifstream file(dirHelper->getPath()+"/"+str);
+        if (file) {
+            cur.type = 1;
+        } else {
+            cur.failed = 1;
+        }
+    } else {
+        dirent *file;
+        while (file = readdir(dir)) {
+            cur.file.push_back(DirFile(file->d_name));
+        }
+        closedir(dir);
     }
-    dirent *file;
-    while (file = readdir(dir)) {
-        cout << file->d_name << " ";
+    contents.push_back(cur);
+}
+
+void CommandLS::show() {
+    sort(contents.begin(), contents.end());
+    if (contents.size() == 1) {
+        if (contents[0].failed) {
+            cout << "ls: cannot access \'" << contents[0].name << "\': No such file or directory" << endl;
+        } else {
+            sort(contents[0].file.begin(), contents[0].file.end());
+            for (int i = 0; i < contents[0].file.size(); ++i) {
+                cout << contents[0].file[i].name << " ";
+            }
+            cout << endl;
+        }
+    } else for (int i = 0; i < contents.size(); ++i) {
+        if (contents[i].failed) {
+            cout << "ls: cannot access \'" << contents[i].name << "\': No such file or directory" << endl;
+        } else {
+            sort(contents[i].file.begin(), contents[i].file.end());
+            for (int j = 0; j < contents[i].file.size(); ++j) {
+                cout << contents[i].file[j].name << " ";
+            }
+            cout << endl;
+        }
     }
-    cout << endl;
-    closedir(dir);
 }
 
 void CommandLS::run() {
@@ -37,9 +70,11 @@ void CommandLS::run() {
             return;
         }
     }
+    contents.clear();
     if (files.empty()) {
-        show(".");
+        getInfo(".");
     } else for (int i = 0; i < files.size(); ++i) {
-        show(files[i]);
+        getInfo(files[i]);
     }
+    show();
 }

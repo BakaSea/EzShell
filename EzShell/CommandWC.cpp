@@ -13,7 +13,7 @@ CommandWC::~CommandWC() {
     contents.clear();
 }
 
-void CommandWC::count(CommandWC::Content &A) {
+void CommandWC::count(Content &A) {
     struct stat path;
     stat((dirHelper->getPath()+"/"+A.file).c_str(), &path);
     if (S_ISDIR(path.st_mode)) {
@@ -27,20 +27,26 @@ void CommandWC::count(CommandWC::Content &A) {
         file.seekg(0, ios::beg);
         char *buffer = new char[A.bytes];
         file.read(buffer, A.bytes);
-        A.chars = file.gcount();
         for (int i = 0, length = 0, flag = 0; i < A.bytes; ++i) {
-            if (buffer[i] == '\n') {
-                A.maxLine = max(A.maxLine, length);
-                A.lines++;
-                length = 0;
-            } else {
-                length++;
-            }
             if (buffer[i] != ' ' && buffer[i] != '\t' && buffer[i] != '\n' && !flag) {
                 A.words++;
                 flag = 1;
             }
             if (buffer[i] == ' ' || buffer[i] == '\t' || buffer[i] == '\n') flag = 0;
+            if (buffer[i] & 0x80) {
+                A.chars++;
+                length += 2;
+                i += 2;
+            } else {
+                A.chars++;
+                if (buffer[i] == '\n') {
+                    A.maxLine = max(A.maxLine, length);
+                    A.lines++;
+                    length = 0;
+                } else {
+                    length++;
+                }
+            }
         }
         file.close();
     } else {

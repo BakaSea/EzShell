@@ -2,6 +2,7 @@
 #define COMMANDWC_H
 #include "CommandBase.h"
 #include <string>
+#include <vector>
 using namespace std;
 
 class CommandWC : public CommandBase {

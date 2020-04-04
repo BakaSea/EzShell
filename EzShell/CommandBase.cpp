@@ -47,11 +47,25 @@ void CommandBase::splitCommand() {
         }
     }
     if (!s.empty()) command.push_back(s);
+    vector<string> originFile;
+    originFile.clear();
     for (int i = 1; i < command.size(); ++i) {
         if (command[i][0] == '-') {
             opt.push_back(command[i]);
         } else {
-            files.push_back(command[i]);
+            originFile.push_back(command[i]);
+        }
+    }
+    if (originFile.size()) {
+        files.push_back(originFile[0]);
+        for (int i = 1, j = 0; i < originFile.size(); ++i) {
+            if (files[j][files[j].size()-1] == '\\') {
+                files[j].pop_back();
+                files[j] += " "+originFile[i];
+            } else {
+                files.push_back(originFile[i]);
+                j++;
+            }
         }
     }
 }
