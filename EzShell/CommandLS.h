@@ -4,15 +4,16 @@
 #include "DirHelper.h"
 #include <string>
 #include <vector>
+#include <time.h>
+#include <sys/stat.h>
 using namespace std;
 
 class CommandLS : public CommandBase {
     struct DirFile {
         string name;
+        unsigned char type;
+        struct stat status;
         DirFile(string name = "") : name(name) { }
-        bool operator < (const DirFile &A) const {
-            return name < A.name;
-        }
     };
     struct Content {
         string name;
@@ -30,8 +31,14 @@ public:
     ~CommandLS();
     void run();
 private:
+    bool _a, _A, _l, _t, _r;
     vector<Content> contents;
+    static bool cmpByName(const DirFile &A, const DirFile &B);
+    static bool cmpByNameR(const DirFile &A, const DirFile &B);
+    static bool cmpByTime(const DirFile &A, const DirFile &B);
+    static bool cmpByTimeR(const DirFile &A, const DirFile &B);
     void getInfo(string str);
+    void print(DirFile file);
     void show();
 };
 
