@@ -7,16 +7,12 @@ SYNOPSIS
 DESCRIPTION
        Concatenate FILE(s) to standard output.
 
-       -b, --number-nonblank
-              number nonempty output lines, overrides -n
+       -b     number nonempty output lines, overrides -n
 
-       -E, --show-ends
-              display $ at end of each line
+       -E     display $ at end of each line
 
-       -n, --number
-              number all output lines
+       -n     number all output lines
 
-       -s, --squeeze-blank
-              suppress repeated empty output lines
+       -s     suppress repeated empty output lines
 
        --help display this help and exit

@@ -33,6 +33,7 @@ public:
 private:
     bool _a, _A, _l, _t, _r;
     vector<Content> contents;
+    const string month[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
     static bool cmpByName(const DirFile &A, const DirFile &B);
     static bool cmpByNameR(const DirFile &A, const DirFile &B);
     static bool cmpByTime(const DirFile &A, const DirFile &B);

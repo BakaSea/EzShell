@@ -8,7 +8,7 @@
 #include "CommandMAN.h"
 using namespace std;
 
-CommandLS::CommandLS(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
+CommandLS::CommandLS(string str, DirHelper *dirHelper) : CommandBase("ls", str, dirHelper) {
 
 }
 
@@ -94,7 +94,7 @@ void CommandLS::print(DirFile file) {
         cout << getgrgid(file.status.st_gid)->gr_name << " ";
         cout << file.status.st_size << " ";
         tm *tim = localtime(&file.status.st_mtim.tv_sec);
-        cout << tim->tm_mon << " " << tim->tm_mday << " " << tim->tm_hour << ":" << tim->tm_min << " ";
+        cout << month[tim->tm_mon] << " " << tim->tm_mday << " " << tim->tm_hour << ":" << tim->tm_min << " ";
     }
     if (file.type == DT_DIR) cout << "\033[1m\033[34m" << file.name << "\033[0m";
     else cout << file.name;
@@ -142,24 +142,38 @@ void CommandLS::show() {
 void CommandLS::run() {
     _a = _A = _l = _t = _r = false;
     for (int i = 0; i < opt.size(); ++i) {
-        if (opt[i] == "-a") {
-            _a = true;
-        } else if (opt[i] == "-A") {
-            _A = true;
-        } else if (opt[i] == "-l") {
-            _l = true;
-        } else if (opt[i] == "-t") {
-            _t = true;
-        } else if (opt[i] == "-r") {
-            _r = true;
-        } else if (opt[i] == "--help") {
-            CommandMAN *man = new CommandMAN("man ls", dirHelper);
-            man->run();
-            return;
-        } else {
-            cout << "ls: unrecognized option \'" << opt[i] << "\'" << endl;
-            cout << "Try \'ls --help\' for more information" << endl;
-            return;
+        if (opt[i].size() > 1) {
+            if (opt[i][0] == '-') {
+                if (opt[i][1] == '-') {
+                    if (opt[i] == "--help") {
+                        CommandMAN *man = new CommandMAN("man "+name, dirHelper);
+                        man->run();
+                        return;
+                    } else {
+                        cout << name << ": unrecognized option \'" << opt[i] << "\'" << endl;
+                        cout << "Try \'" << name << " --help\' for more information" << endl;
+                        return;
+                    }
+                } else {
+                    for (int j = 1; j < opt[i].size(); ++j) {
+                        if (opt[i][j] == 'a') {
+                            _a = true;
+                        } else if (opt[i][j] == 'A') {
+                            _A = true;
+                        } else if (opt[i][j] == 'l') {
+                            _l = true;
+                        } else if (opt[i][j] == 't') {
+                            _t = true;
+                        } else if (opt[i][j] == 'r') {
+                            _r = true;
+                        } else {
+                            cout << name << ": unrecognized option \'" << opt[i][j] << "\'" << endl;
+                            cout << "Try \'" << name << " --help\' for more information" << endl;
+                            return;
+                        }
+                    }
+                }
+            }
         }
     }
     contents.clear();

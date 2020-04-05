@@ -8,11 +8,11 @@ using namespace std;
 
 class CommandBase {
 public:
-    CommandBase(string str, DirHelper *dirHelper);
+    CommandBase(string name, string str, DirHelper *dirHelper);
     ~CommandBase();
     virtual void run();
 protected:
-    string str;
+    string str, name;
     DirHelper *dirHelper;
     vector<string> command;
     vector<string> files;

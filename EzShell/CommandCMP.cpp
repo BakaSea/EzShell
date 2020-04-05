@@ -5,7 +5,7 @@
 #include "CommandMAN.h"
 using namespace std;
 
-CommandCMP::CommandCMP(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
+CommandCMP::CommandCMP(string str, DirHelper *dirHelper) : CommandBase("cmp", str, dirHelper) {
     
 }
 
@@ -26,18 +26,32 @@ int CommandCMP::convert(int x) {
 void CommandCMP::run() {
     _b = _l = false;
     for (int i = 0; i < opt.size(); ++i) {
-        if (opt[i] == "-b") {
-            _b = true;
-        } else if (opt[i] == "-l") {
-            _l = true;
-        } else if (opt[i] == "--help") {
-            CommandMAN *man = new CommandMAN("man cmp", dirHelper);
-            man->run();
-            return;
-        } else {
-            cout << "cmp: unrecognized option \'" << opt[i] << "\'" << endl;
-            cout << "Try \'cmp --help\' for more information" << endl;
-            return;
+        if (opt[i].size() > 1) {
+            if (opt[i][0] == '-') {
+                if (opt[i][1] == '-') {
+                    if (opt[i] == "--help") {
+                        CommandMAN *man = new CommandMAN("man "+name, dirHelper);
+                        man->run();
+                        return;
+                    } else {
+                        cout << name << ": unrecognized option \'" << opt[i] << "\'" << endl;
+                        cout << "Try \'" << name << " --help\' for more information" << endl;
+                        return;
+                    }
+                } else {
+                    for (int j = 1; j < opt[i].size(); ++j) {
+                        if (opt[i][j] == 'b') {
+                            _b = true;
+                        } else if (opt[i][j] == 'l') {
+                            _l = true;
+                        } else {
+                            cout << name << ": unrecognized option \'" << opt[i][j] << "\'" << endl;
+                            cout << "Try \'" << name << " --help\' for more information" << endl;
+                            return;
+                        }
+                    }
+                }
+            }
         }
     }
     if (files.size() < 2) {

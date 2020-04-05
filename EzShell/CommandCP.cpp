@@ -7,7 +7,7 @@
 #include "CommandMAN.h"
 using namespace std;
 
-CommandCP::CommandCP(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
+CommandCP::CommandCP(string str, DirHelper *dirHelper) : CommandBase("cp", str, dirHelper) {
 
 }
 
@@ -111,20 +111,34 @@ void CommandCP::run() {
     _r = _i = false;
     _f = true;
     for (int i = 0; i < opt.size(); ++i) {
-        if (opt[i] == "-r") {
-            _r = true;
-        } else if (opt[i] == "-f") {
-            _f = true;
-        } else if (opt[i] == "-i") {
-            _i = true;
-        } else if (opt[i] == "--help") {
-            CommandMAN *man = new CommandMAN("man cp", dirHelper);
-            man->run();
-            return;
-        } else {
-            cout << "cp: unrecognized option \'" << opt[i] << "\'" << endl;
-            cout << "Try \'cp --help\' for more information" << endl;
-            return;
+        if (opt[i].size() > 1) {
+            if (opt[i][0] == '-') {
+                if (opt[i][1] == '-') {
+                    if (opt[i] == "--help") {
+                        CommandMAN *man = new CommandMAN("man "+name, dirHelper);
+                        man->run();
+                        return;
+                    } else {
+                        cout << name << ": unrecognized option \'" << opt[i] << "\'" << endl;
+                        cout << "Try \'" << name << " --help\' for more information" << endl;
+                        return;
+                    }
+                } else {
+                    for (int j = 1; j < opt[i].size(); ++j) {
+                        if (opt[i][j] == 'r') {
+                            _r = true;
+                        } else if (opt[i][j] == 'f') {
+                            _f = true;
+                        } else if (opt[i][j] == 'i') {
+                            _i = true;
+                        } else {
+                            cout << name << ": unrecognized option \'" << opt[i][j] << "\'" << endl;
+                            cout << "Try \'" << name << " --help\' for more information" << endl;
+                            return;
+                        }
+                    }
+                }
+            }
         }
     }
     if (files.empty()) {

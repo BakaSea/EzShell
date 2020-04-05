@@ -10,13 +10,10 @@ DESCRIPTION
 
        Mandatory arguments to long options are mandatory for short options too.
 
-       -f, --force
-              if an existing destination file cannot be opened, remove it and try again
+       -f     if an existing destination file cannot be opened, remove it and try again
 
-       -i, --interactive
-              prompt before overwrite
+       -i     prompt before overwrite
 
-       -R, -r, --recursive
-              copy directories recursively
+       -r     copy directories recursively
 
        --help display this help and exit

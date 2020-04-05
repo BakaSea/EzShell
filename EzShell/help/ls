@@ -6,3 +6,15 @@ SYNOPSIS
 
 DESCRIPTION
        List information about the FILEs (the current directory by default).
+
+       -a     do not ignore entries starting with .
+
+       -A     do not list implied . and ..
+
+       -l     use a long listing format
+
+       -r     reverse order while sorting
+
+       -t     sort by modification time, newest first
+
+       --help display this help and exit

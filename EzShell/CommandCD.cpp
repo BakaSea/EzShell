@@ -3,7 +3,7 @@
 #include <dirent.h>
 #include "CommandMAN.h"
 
-CommandCD::CommandCD(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
+CommandCD::CommandCD(string str, DirHelper *dirHelper) : CommandBase("cd", str, dirHelper) {
 
 }
 
@@ -36,14 +36,26 @@ bool CommandCD::checkPath(string str) {
 
 void CommandCD::run() {
     for (int i = 0; i < opt.size(); ++i) {
-        if (opt[i] == "--help") {
-            CommandMAN *man = new CommandMAN("man cd", dirHelper);
-            man->run();
-            return;
-        } else {
-            cout << "cd: unrecognized option \'" << opt[i] << "\'" << endl;
-            cout << "Try \'cd --help\' for more information" << endl;
-            return;
+        if (opt[i].size() > 1) {
+            if (opt[i][0] == '-') {
+                if (opt[i][1] == '-') {
+                    if (opt[i] == "--help") {
+                        CommandMAN *man = new CommandMAN("man "+name, dirHelper);
+                        man->run();
+                        return;
+                    } else {
+                        cout << name << ": unrecognized option \'" << opt[i] << "\'" << endl;
+                        cout << "Try \'" << name << " --help\' for more information" << endl;
+                        return;
+                    }
+                } else {
+                    for (int j = 1; j < opt[i].size(); ++j) {
+                        cout << name << ": unrecognized option \'" << opt[i][j] << "\'" << endl;
+                        cout << "Try \'" << name << " --help\' for more information" << endl;
+                        return;
+                    }
+                }
+            }
         }
     }
     if (files.empty()) files.push_back("~");

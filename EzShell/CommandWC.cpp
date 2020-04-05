@@ -5,7 +5,7 @@
 #include "CommandMAN.h"
 using namespace std;
 
-CommandWC::CommandWC(string str, DirHelper *dirHelper) : CommandBase(str, dirHelper) {
+CommandWC::CommandWC(string str, DirHelper *dirHelper) : CommandBase("wc", str, dirHelper) {
     contents.clear();
 }
 
@@ -63,24 +63,38 @@ void CommandWC::run() {
     if (opt.empty()) {
         _c = _w = _l = true;
     } else for (int i = 0; i < opt.size(); ++i) {
-        if (opt[i] == "-c") {
-            _c = true;
-        } else if (opt[i] == "-m") {
-            _m = true;
-        } else if (opt[i] == "-l") {
-            _l = true;
-        } else if (opt[i] == "-L") {
-            _L = true;
-        } else if (opt[i] == "-w") {
-            _w = true;
-        } else if (opt[i] == "--help") {
-            CommandMAN *man = new CommandMAN("man wc", dirHelper);
-            man->run();
-            return;
-        } else {
-            cout << "wc: unrecognized option \'" << opt[i] << "\'" << endl;
-            cout << "Try \'wc --help\' for more information" << endl;
-            return;
+        if (opt[i].size() > 1) {
+            if (opt[i][0] == '-') {
+                if (opt[i][1] == '-') {
+                    if (opt[i] == "--help") {
+                        CommandMAN *man = new CommandMAN("man "+name, dirHelper);
+                        man->run();
+                        return;
+                    } else {
+                        cout << name << ": unrecognized option \'" << opt[i] << "\'" << endl;
+                        cout << "Try \'" << name << " --help\' for more information" << endl;
+                        return;
+                    }
+                } else {
+                    for (int j = 1; j < opt[i].size(); ++j) {
+                        if (opt[i][j] == 'c') {
+                            _c = true;
+                        } else if (opt[i][j] == 'm') {
+                            _m = true;
+                        } else if (opt[i][j] == 'l') {
+                            _l = true;
+                        } else if (opt[i][j] == 'L') {
+                            _L = true;
+                        } else if (opt[i][j] == 'w') {
+                            _w = true;
+                        } else {
+                            cout << name << ": unrecognized option \'" << opt[i][j] << "\'" << endl;
+                            cout << "Try \'" << name << " --help\' for more information" << endl;
+                            return;
+                        }
+                    }
+                }
+            }
         }
     }
     total = Content("total");

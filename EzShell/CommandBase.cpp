@@ -1,6 +1,6 @@
 #include "CommandBase.h"
 
-CommandBase::CommandBase(string str, DirHelper *dirHelper) : str(str), dirHelper(dirHelper) {
+CommandBase::CommandBase(string name, string str, DirHelper *dirHelper) : name(name), str(str), dirHelper(dirHelper) {
     splitCommand();
 }
 
