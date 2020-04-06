@@ -1,4 +1,16 @@
 #include "Command.h"
+#include "CommandCP.h"
+#include "CommandCMP.h"
+#include "CommandWC.h"
+#include "CommandCAT.h"
+#include "CommandMAN.h"
+#include "CommandECHO.h"
+#include "CommandBase.h"
+#include "CommandLS.h"
+#include "CommandPWD.h"
+#include "CommandCD.h"
+#include "CommandMKDIR.h"
+#include "CommandTouch.h"
 
 Command::Command(DirHelper *dirHelper) : dirHelper(dirHelper) {
 
@@ -28,6 +40,7 @@ int Command::find(string str) {
     if (s == "pwd") command = new CommandPWD(str, dirHelper);
     if (s == "cd") command = new CommandCD(str, dirHelper);
     if (s == "mkdir") command = new CommandMKDIR(str, dirHelper);
+    if (s == "touch") command = new CommandTouch(str, dirHelper);
     if (s == "exit") return -1;
     if (s.empty()) return -2;
     if (s.size() >= 2 && s[0] == '.' && s[1] == '/') return -3;

@@ -1,17 +1,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
-#include "CommandCP.h"
-#include "CommandCMP.h"
-#include "CommandWC.h"
-#include "CommandCAT.h"
-#include "CommandMAN.h"
-#include "CommandECHO.h"
-#include "CommandBase.h"
-#include "CommandLS.h"
-#include "CommandPWD.h"
-#include "CommandCD.h"
-#include "CommandMKDIR.h"
 #include "DirHelper.h"
+#include "CommandBase.h"
 #include <string>
 using namespace std;
 

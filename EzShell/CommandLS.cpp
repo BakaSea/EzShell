@@ -39,6 +39,10 @@ void CommandLS::getInfo(string str) {
         ifstream file(dirHelper->getPath()+"/"+str);
         if (file) {
             cur.type = 1;
+            DirFile df = DirFile(str);
+            df.type = DT_REG;
+            stat((dirHelper->getPath()+"/"+str).c_str(), &df.status);
+            cur.file.push_back(df);
         } else {
             cur.failed = 1;
         }
