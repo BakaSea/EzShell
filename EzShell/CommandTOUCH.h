@@ -3,10 +3,10 @@
 #include "CommandBase.h"
 #include "DirHelper.h"
 
-class CommandTouch : public CommandBase {
+class CommandTOUCH : public CommandBase {
 public:
-    CommandTouch(string str, DirHelper *dirHelper);
-    ~CommandTouch();
+    CommandTOUCH(string str, DirHelper *dirHelper);
+    ~CommandTOUCH();
     void run();
 };
 

@@ -1,19 +1,19 @@
-#include "CommandTouch.h"
+#include "CommandTOUCH.h"
 #include "CommandMAN.h"
 #include <iostream>
 #include <fstream>
 #include <sys/stat.h>
 using namespace std;
 
-CommandTouch::CommandTouch(string str, DirHelper *dirHelper) : CommandBase("touch", str, dirHelper) {
+CommandTOUCH::CommandTOUCH(string str, DirHelper *dirHelper) : CommandBase("touch", str, dirHelper) {
 
 }
 
-CommandTouch::~CommandTouch() {
+CommandTOUCH::~CommandTOUCH() {
 
 }
 
-void CommandTouch::run() {
+void CommandTOUCH::run() {
     for (int i = 0; i < opt.size(); ++i) {
         if (opt[i].size() > 1) {
             if (opt[i][0] == '-') {

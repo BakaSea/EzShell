@@ -1,11 +1,11 @@
 main:main.o UI.h UI.o Command.h Command.o CommandBase.h CommandBase.o CommandCP.h CommandCP.o CommandCMP.h CommandCMP.o \
 	CommandWC.h CommandWC.o CommandCAT.h CommandCAT.o CommandMAN.h CommandMAN.o CommandECHO.h CommandECHO.o \
 	CommandLS.h CommandLS.o CommandPWD.h CommandPWD.o CommandCD.h CommandCD.o CommandMKDIR.h CommandMKDIR.o \
-	CommandTouch.h CommandTouch.o WorkShell.h WorkShell.o DirHelper.h DirHelper.o
+	CommandTOUCH.h CommandTOUCH.o WorkShell.h WorkShell.o DirHelper.h DirHelper.o
 	g++ main.o UI.h UI.o Command.h Command.o CommandBase.h CommandBase.o CommandCP.h CommandCP.o CommandCMP.h CommandCMP.o \
 		CommandWC.h CommandWC.o CommandCAT.h CommandCAT.o CommandMAN.h CommandMAN.o CommandECHO.h CommandECHO.o \
 		CommandLS.h CommandLS.o CommandPWD.h CommandPWD.o CommandCD.h CommandCD.o CommandMKDIR.h CommandMKDIR.o \
-		CommandTouch.h CommandTouch.o WorkShell.h WorkShell.o DirHelper.h DirHelper.o -o EzShell
+		CommandTOUCH.h CommandTOUCH.o WorkShell.h WorkShell.o DirHelper.h DirHelper.o -o EzShell
 main.o:
 	g++ -c main.cpp
 UI.o:UI.cpp
@@ -38,8 +38,8 @@ CommandCD.o:CommandCD.cpp
 	g++ -c CommandCD.cpp
 CommandMKDIR.o:CommandMKDIR.cpp
 	g++ -c CommandMKDIR.cpp
-CommandTouch.o:CommandTouch.cpp
-	g++ -c CommandTouch.cpp
+CommandTOUCH.o:CommandTOUCH.cpp
+	g++ -c CommandTOUCH.cpp
 clean:
 	rm *.o
 	rm EzShell
