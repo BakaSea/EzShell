@@ -11,6 +11,8 @@
 #include "CommandCD.h"
 #include "CommandMKDIR.h"
 #include "CommandTOUCH.h"
+#include "CommandRM.h"
+#include "CommandRMDIR.h"
 
 Command::Command(DirHelper *dirHelper) : dirHelper(dirHelper) {
 
@@ -41,6 +43,8 @@ int Command::find(string str) {
     if (s == "cd") command = new CommandCD(str, dirHelper);
     if (s == "mkdir") command = new CommandMKDIR(str, dirHelper);
     if (s == "touch") command = new CommandTOUCH(str, dirHelper);
+    if (s == "rm") command = new CommandRM(str, dirHelper);
+    if (s == "rmdir") command = new CommandRMDIR(str, dirHelper);
     if (s == "exit") return -1;
     if (s.empty()) return -2;
     if (s.size() >= 2 && s[0] == '.' && s[1] == '/') return -3;

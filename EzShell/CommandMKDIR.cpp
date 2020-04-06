@@ -44,7 +44,7 @@ void CommandMKDIR::run() {
     }
     for (int i = 0; i < files.size(); ++i) {
         if (mkdir(files[i].c_str(), 0755)) {
-            cout << "mkdir: cannot create directory \'"+files[i]+"\': No such file or directory" << endl;
+            cout << "mkdir: cannot create directory \'"+files[i]+"\'" << endl;
         }
     }
 }
