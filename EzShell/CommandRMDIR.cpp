@@ -67,12 +67,12 @@ void CommandRMDIR::run() {
             if (_p) {
                 splitPath(files[i]);
                 for (int j = path.size()-1; j >= 0; --j) {
-                    string cur = string();
+                    string s = string();
                     for (int k = 0; k <= j; ++k) {
-                        cur += "/"+path[k];
+                        s += "/"+path[k];
                     }
-                    if (rmdir((dirHelper->getPath()+"/"+cur).c_str())) {
-                        cout << "rmdir: failed to remove \'" << cur << "\'" << endl;
+                    if (rmdir((dirHelper->getPath()+"/"+s).c_str())) {
+                        cout << "rmdir: failed to remove \'" << s << "\'" << endl;
                         break;
                     }
                 }
