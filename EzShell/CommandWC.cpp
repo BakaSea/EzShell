@@ -6,7 +6,29 @@
 using namespace std;
 
 CommandWC::CommandWC(string str, DirHelper *dirHelper) : CommandBase("wc", str, dirHelper) {
-    contents.clear();
+    mapOpt["c"] = &_c;
+    mapOpt["--bytes"] = &_c;
+    mapOpt["m"] = &_m;
+    mapOpt["--chars"] = &_m;
+    mapOpt["l"] = &_l;
+    mapOpt["--lines"] = &_l;
+    mapOpt["L"] = &_L;
+    mapOpt["--max-line-length"] = &_L;
+    mapOpt["w"] = &_w;
+    mapOpt["--words"] = &_w;
+    help =
+"Usage: wc [OPTION]... [FILE]...\n\
+Print newline, word, and byte counts for each FILE, and a total line if\n\
+more than one FILE is specified.  A word is a non-zero-length sequence of\n\
+characters delimited by white space.\n\n\
+The options below may be used to select which counts are printed, always in\n\
+the following order: newline, word, character, byte, maximum line length.\n\
+  -c, --bytes            print the byte counts\n\
+  -m, --chars            print the character counts\n\
+  -l, --lines            print the newline counts\n\
+  -L, --max-line-length  print the maximum display width\n\
+  -w, --words            print the word counts\n\
+      --help     display this help and exit\n";
 }
 
 CommandWC::~CommandWC() {
@@ -56,46 +78,15 @@ void CommandWC::count(Content &A) {
 
 void CommandWC::run() {
     _c = _w = _l = _L = _w = false;
+    contents.clear();
     for (int i = 0 ; i < files.size(); ++i) {
         contents.push_back(Content(files[i]));
         count(contents[i]);
     }
     if (opt.empty()) {
         _c = _w = _l = true;
-    } else for (int i = 0; i < opt.size(); ++i) {
-        if (opt[i].size() > 1) {
-            if (opt[i][0] == '-') {
-                if (opt[i][1] == '-') {
-                    if (opt[i] == "--help") {
-                        CommandMAN *man = new CommandMAN("man "+name, dirHelper);
-                        man->run();
-                        return;
-                    } else {
-                        cout << name << ": unrecognized option \'" << opt[i] << "\'" << endl;
-                        cout << "Try \'" << name << " --help\' for more information" << endl;
-                        return;
-                    }
-                } else {
-                    for (int j = 1; j < opt[i].size(); ++j) {
-                        if (opt[i][j] == 'c') {
-                            _c = true;
-                        } else if (opt[i][j] == 'm') {
-                            _m = true;
-                        } else if (opt[i][j] == 'l') {
-                            _l = true;
-                        } else if (opt[i][j] == 'L') {
-                            _L = true;
-                        } else if (opt[i][j] == 'w') {
-                            _w = true;
-                        } else {
-                            cout << name << ": unrecognized option \'" << opt[i][j] << "\'" << endl;
-                            cout << "Try \'" << name << " --help\' for more information" << endl;
-                            return;
-                        }
-                    }
-                }
-            }
-        }
+    } else {
+        if (!analyzeOpt()) return;
     }
     total = Content("total");
     for (int i = 0; i < contents.size(); ++i) {

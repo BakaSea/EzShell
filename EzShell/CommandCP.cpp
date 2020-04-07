@@ -8,7 +8,20 @@
 using namespace std;
 
 CommandCP::CommandCP(string str, DirHelper *dirHelper) : CommandBase("cp", str, dirHelper) {
-
+    mapOpt["i"] = &_i;
+    mapOpt["--interactive"] = &_i;
+    mapOpt["r"] = &_r;
+    mapOpt["R"] = &_r;
+    mapOpt["--recursive"] = &_r;
+    help = 
+"Usage: cp [OPTION]... [-T] SOURCE DEST\n\
+  or:  cp [OPTION]... SOURCE... DIRECTORY\n\
+Copy SOURCE to DEST, or multiple SOURCE(s) to DIRECTORY.\n\n\
+Mandatory arguments to long options are mandatory for short options too.\n\
+  -i, --interactive            prompt before overwrite (overrides a previous -n\n\
+                                  option)\n\
+  -R, -r, --recursive          copy directories recursively\n\
+      --help     display this help and exit\n";
 }
 
 CommandCP::~CommandCP() {
@@ -109,38 +122,7 @@ void CommandCP::copyDir(string src, string direct) {
 
 void CommandCP::run() {
     _r = _i = false;
-    _f = true;
-    for (int i = 0; i < opt.size(); ++i) {
-        if (opt[i].size() > 1) {
-            if (opt[i][0] == '-') {
-                if (opt[i][1] == '-') {
-                    if (opt[i] == "--help") {
-                        CommandMAN *man = new CommandMAN("man "+name, dirHelper);
-                        man->run();
-                        return;
-                    } else {
-                        cout << name << ": unrecognized option \'" << opt[i] << "\'" << endl;
-                        cout << "Try \'" << name << " --help\' for more information" << endl;
-                        return;
-                    }
-                } else {
-                    for (int j = 1; j < opt[i].size(); ++j) {
-                        if (opt[i][j] == 'r') {
-                            _r = true;
-                        } else if (opt[i][j] == 'f') {
-                            _f = true;
-                        } else if (opt[i][j] == 'i') {
-                            _i = true;
-                        } else {
-                            cout << name << ": unrecognized option \'" << opt[i][j] << "\'" << endl;
-                            cout << "Try \'" << name << " --help\' for more information" << endl;
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
+    if (!analyzeOpt()) return;
     if (files.empty()) {
         cout << "cp: missing file operand" << endl;
         cout << "Try \'cp --help\' for more information" << endl;

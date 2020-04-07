@@ -1,6 +1,6 @@
 #include "CommandBase.h"
 
-CommandBase::CommandBase(string name, string str, DirHelper *dirHelper) : name(name), str(str), dirHelper(dirHelper) {
+CommandBase::CommandBase(string name, string str, DirHelper *dirHelper) : name(name), strSrc(str), dirHelper(dirHelper), help("") {
     splitCommand();
 }
 
@@ -8,6 +8,7 @@ CommandBase::~CommandBase() {
     command.clear();
     files.clear();
     opt.clear();
+    mapOpt.clear();
     dirHelper = NULL;
     delete dirHelper;
 }
@@ -33,8 +34,8 @@ void CommandBase::splitCommand() {
     opt.clear();
     string s = string();
     int flag = 0;
-    for (int i = 0; i < str.size(); ++i) {
-        if (str[i] == ' ' || str[i] == '\t' ) {
+    for (int i = 0; i < strSrc.size(); ++i) {
+        if (strSrc[i] == ' ' || strSrc[i] == '\t' ) {
             if (flag) {
                 flag = 0;
                 command.push_back(s);
@@ -43,7 +44,7 @@ void CommandBase::splitCommand() {
             continue;
         } else {
             flag = 1;
-            s.push_back(str[i]);
+            s.push_back(strSrc[i]);
         }
     }
     if (!s.empty()) command.push_back(s);
@@ -68,4 +69,38 @@ void CommandBase::splitCommand() {
             }
         }
     }
+}
+
+int CommandBase::analyzeOpt() {
+    for (int i = 0; i < opt.size(); ++i) {
+        if (opt[i].size() > 1) {
+            if (opt[i][0] == '-') {
+                if (opt[i][1] == '-') {
+                    unordered_map<string, bool*>::iterator iter = mapOpt.find(opt[i]);
+                    if (iter != mapOpt.end()) {
+                        (*iter->second) = true;
+                    } else if (opt[i] == "--help") {
+                        cout << help;
+                        return 0;
+                    } else {
+                        cout << name << ": unrecognized option \'" << opt[i] << "\'" << endl;
+                        cout << "Try \'" << name << " --help\' for more information" << endl;
+                        return 0;
+                    }
+                } else {
+                    for (int j = 1; j < opt[i].size(); ++j) {
+                        unordered_map<string, bool*>::iterator iter = mapOpt.find(string(1, opt[i][j]));
+                        if (iter != mapOpt.end()) {
+                            (*iter->second) = true;
+                        } else {
+                            cout << name << ": unrecognized option \'" << opt[i][j] << "\'" << endl;
+                            cout << "Try \'" << name << " --help\' for more information" << endl;
+                            return 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 1;
 }

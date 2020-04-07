@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <unordered_map>
 #include "DirHelper.h"
 using namespace std;
 
@@ -12,12 +13,14 @@ public:
     ~CommandBase();
     virtual void run();
 protected:
-    string str, name;
+    string strSrc, name, help;
     DirHelper *dirHelper;
     vector<string> command;
     vector<string> files;
     vector<string> opt;
+    unordered_map<string, bool*> mapOpt;
     void splitCommand();
+    int analyzeOpt();
 };
 
 #endif

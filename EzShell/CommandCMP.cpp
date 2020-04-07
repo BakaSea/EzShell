@@ -6,7 +6,17 @@
 using namespace std;
 
 CommandCMP::CommandCMP(string str, DirHelper *dirHelper) : CommandBase("cmp", str, dirHelper) {
-    
+    mapOpt["b"] = &_b;
+    mapOpt["--print-bytes"] = &_b;
+    mapOpt["l"] = &_l;
+    mapOpt["--verbose"] = &_l;
+    help = 
+"Usage: cmp [OPTION]... FILE1 FILE2\n\
+Compare two files byte by byte.\n\n\
+Mandatory arguments to long options are mandatory for short options too.\n\
+  -b, --print-bytes          print differing bytes\n\
+  -l, --verbose              output byte numbers and differing byte values\n\
+      --help                 display this help and exit\n";
 }
 
 CommandCMP::~CommandCMP() {
@@ -25,35 +35,7 @@ int CommandCMP::convert(int x) {
 
 void CommandCMP::run() {
     _b = _l = false;
-    for (int i = 0; i < opt.size(); ++i) {
-        if (opt[i].size() > 1) {
-            if (opt[i][0] == '-') {
-                if (opt[i][1] == '-') {
-                    if (opt[i] == "--help") {
-                        CommandMAN *man = new CommandMAN("man "+name, dirHelper);
-                        man->run();
-                        return;
-                    } else {
-                        cout << name << ": unrecognized option \'" << opt[i] << "\'" << endl;
-                        cout << "Try \'" << name << " --help\' for more information" << endl;
-                        return;
-                    }
-                } else {
-                    for (int j = 1; j < opt[i].size(); ++j) {
-                        if (opt[i][j] == 'b') {
-                            _b = true;
-                        } else if (opt[i][j] == 'l') {
-                            _l = true;
-                        } else {
-                            cout << name << ": unrecognized option \'" << opt[i][j] << "\'" << endl;
-                            cout << "Try \'" << name << " --help\' for more information" << endl;
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
+    if (!analyzeOpt()) return;
     if (files.size() < 2) {
         cout << "Compared files are less than 2" << endl;
         return;

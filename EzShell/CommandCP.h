@@ -11,7 +11,7 @@ public:
     ~CommandCP();
     void run();
 private:
-    bool _r, _f, _i;
+    bool _r, _i;
     vector<string> cpFile;
     vector<bool> mk;
     void copy(string src, string dest, string direct);

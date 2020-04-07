@@ -6,7 +6,14 @@
 using namespace std;
 
 CommandRMDIR::CommandRMDIR(string str, DirHelper *dirHelper) : CommandBase("rmdir", str, dirHelper) {
-
+    mapOpt["p"] = &_p;
+    mapOpt["--parents"] = &_p;
+    help =
+"Usage: rmdir [OPTION]... DIRECTORY...\n\
+Remove the DIRECTORY(ies), if they are empty.\n\n\
+  -p, --parents   remove DIRECTORY and its ancestors; e.g., 'rmdir -p a/b/c' is\n\
+                    similar to 'rmdir a/b/c a/b a'\n\
+      --help     display this help and exit\n";
 }
 
 CommandRMDIR::~CommandRMDIR() {
@@ -30,33 +37,7 @@ void CommandRMDIR::splitPath(string str) {
 
 void CommandRMDIR::run() {
     _p = false;
-    for (int i = 0; i < opt.size(); ++i) {
-        if (opt[i].size() > 1) {
-            if (opt[i][0] == '-') {
-                if (opt[i][1] == '-') {
-                    if (opt[i] == "--help") {
-                        CommandMAN *man = new CommandMAN("man "+name, dirHelper);
-                        man->run();
-                        return;
-                    } else {
-                        cout << name << ": unrecognized option \'" << opt[i] << "\'" << endl;
-                        cout << "Try \'" << name << " --help\' for more information" << endl;
-                        return;
-                    }
-                } else {
-                    for (int j = 1; j < opt[i].size(); ++j) {
-                        if (opt[i][j] == 'p') {
-                            _p = true;
-                        } else {
-                            cout << name << ": unrecognized option \'" << opt[i][j] << "\'" << endl;
-                            cout << "Try \'" << name << " --help\' for more information" << endl;
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
+    if (!analyzeOpt()) return;
     if (files.empty()) {
         cout << "rmdir: missing operand" << endl;
         cout << "Try \'rmdir --help\' for more information." << endl;
@@ -71,8 +52,10 @@ void CommandRMDIR::run() {
                     for (int k = 0; k <= j; ++k) {
                         s += "/"+path[k];
                     }
-                    if (rmdir((dirHelper->getPath()+"/"+s).c_str())) {
-                        cout << "rmdir: failed to remove \'" << s << "\'" << endl;
+                    if (rmdir((dirHelper->getPath()+s).c_str())) {
+                        cout << "rmdir: failed to remove \'";
+                        for (int k = 1; k < s.size(); ++k) cout << s[k];
+                        cout << "\'" << endl;
                         break;
                     }
                 }

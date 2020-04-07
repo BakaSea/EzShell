@@ -9,7 +9,9 @@ public:
     ~CommandRM();
     void run();
 private:
-    bool _i, _r, _f;
+    bool _i, _r;
+    int removeFile(string str);
+    int removeDir(string str);
 };
 
 #endif

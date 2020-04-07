@@ -6,7 +6,22 @@
 using namespace std;
 
 CommandCAT::CommandCAT(string str, DirHelper *dirHelper) : CommandBase("cat", str, dirHelper) {
-
+    mapOpt["b"] = &_b;
+    mapOpt["--number-nonblank"] = &_b;
+    mapOpt["E"] = &_E;
+    mapOpt["--show-ends"] = &_E;
+    mapOpt["n"] = &_n;
+    mapOpt["--number"] = &_n;
+    mapOpt["s"] = &_s;
+    mapOpt["--squeeze-blank"] = &_s;
+    help = 
+"Usage: cat [OPTION]... [FILE]...\n\
+Concatenate FILE(s) to standard output.\n\n\
+  -b, --number-nonblank    number nonempty output lines, overrides -n\n\
+  -E, --show-ends          display $ at end of each line\n\
+  -n, --number             number all output lines\n\
+  -s, --squeeze-blank      suppress repeated empty output lines\n\
+      --help     display this help and exit\n";
 }
 
 CommandCAT::~CommandCAT() {
@@ -47,39 +62,7 @@ void CommandCAT::display(string str) {
 
 void CommandCAT::run() {
     _n = _b = _s = _E = false;
-    for (int i = 0; i < opt.size(); ++i) {
-        if (opt[i].size() > 1) {
-            if (opt[i][0] == '-') {
-                if (opt[i][1] == '-') {
-                    if (opt[i] == "--help") {
-                        CommandMAN *man = new CommandMAN("man "+name, dirHelper);
-                        man->run();
-                        return;
-                    } else {
-                        cout << name << ": unrecognized option \'" << opt[i] << "\'" << endl;
-                        cout << "Try \'" << name << " --help\' for more information" << endl;
-                        return;
-                    }
-                } else {
-                    for (int j = 1; j < opt[i].size(); ++j) {
-                        if (opt[i][j] == 'n') {
-                            _n = true;
-                        } else if (opt[i][j] == 'b') {
-                            _b = true;
-                        } else if (opt[i][j] == 's') {
-                            _s = true;
-                        } else if (opt[i][j] == 'E') {
-                            _E = true;
-                        } else {
-                            cout << name << ": unrecognized option \'" << opt[i][j] << "\'" << endl;
-                            cout << "Try \'" << name << " --help\' for more information" << endl;
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
+    if (!analyzeOpt()) return;
     for (int i = 0; i < files.size(); ++i) {
         display(files[i]);
     }

@@ -9,7 +9,24 @@
 using namespace std;
 
 CommandLS::CommandLS(string str, DirHelper *dirHelper) : CommandBase("ls", str, dirHelper) {
-
+    mapOpt["a"] = &_a;
+    mapOpt["--all"] = &_a;
+    mapOpt["A"] = &_A;
+    mapOpt["--almost-all"] = &_A;
+    mapOpt["l"] = &_l;
+    mapOpt["r"] = &_r;
+    mapOpt["--reverse"] = &_r;
+    mapOpt["t"] = &_t;
+    help = 
+"Usage: ls [OPTION]... [FILE]...\n\
+List information about the FILEs (the current directory by default).\n\n\
+Mandatory arguments to long options are mandatory for short options too.\n\
+  -a, --all                  do not ignore entries starting with .\n\
+  -A, --almost-all           do not list implied . and ..\n\
+  -l                         use a long listing format\n\
+  -r, --reverse              reverse order while sorting\n\
+  -t                         sort by modification time, newest first\n\
+      --help     display this help and exit\n";
 }
 
 CommandLS::~CommandLS() {
@@ -145,41 +162,7 @@ void CommandLS::show() {
 
 void CommandLS::run() {
     _a = _A = _l = _t = _r = false;
-    for (int i = 0; i < opt.size(); ++i) {
-        if (opt[i].size() > 1) {
-            if (opt[i][0] == '-') {
-                if (opt[i][1] == '-') {
-                    if (opt[i] == "--help") {
-                        CommandMAN *man = new CommandMAN("man "+name, dirHelper);
-                        man->run();
-                        return;
-                    } else {
-                        cout << name << ": unrecognized option \'" << opt[i] << "\'" << endl;
-                        cout << "Try \'" << name << " --help\' for more information" << endl;
-                        return;
-                    }
-                } else {
-                    for (int j = 1; j < opt[i].size(); ++j) {
-                        if (opt[i][j] == 'a') {
-                            _a = true;
-                        } else if (opt[i][j] == 'A') {
-                            _A = true;
-                        } else if (opt[i][j] == 'l') {
-                            _l = true;
-                        } else if (opt[i][j] == 't') {
-                            _t = true;
-                        } else if (opt[i][j] == 'r') {
-                            _r = true;
-                        } else {
-                            cout << name << ": unrecognized option \'" << opt[i][j] << "\'" << endl;
-                            cout << "Try \'" << name << " --help\' for more information" << endl;
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
+    if (!analyzeOpt()) return;
     contents.clear();
     if (files.empty()) {
         getInfo(".");
