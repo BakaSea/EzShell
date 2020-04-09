@@ -15,6 +15,7 @@
 #include "CommandRMDIR.h"
 #include "CommandOther.h"
 #include "CommandINSTALL.h"
+#include "CommandUNINSTALL.h"
 #include <fstream>
 using namespace std;
 
@@ -30,7 +31,8 @@ Command::Command(DirHelper *dirHelper) : dirHelper(dirHelper) {
         in.close();
     }
     mapCom["cp"] = mapCom["cmp"] = mapCom["wc"] = mapCom["cat"] = mapCom["man"] = mapCom["echo"] = mapCom["ls"] = mapCom["exit"] =
-        mapCom["pwd"] = mapCom["cd"] = mapCom["mkdir"] = mapCom["touch"] = mapCom["rm"] = mapCom["rmdir"] = mapCom["install"] = true;
+        mapCom["pwd"] = mapCom["cd"] = mapCom["mkdir"] = mapCom["touch"] = mapCom["rm"] = mapCom["rmdir"] = mapCom["install"] =
+        mapCom["uninstall"] = false;
 }
 
 Command::~Command() {
@@ -63,6 +65,7 @@ int Command::find(string str) {
     else if (s == "rm") command = new CommandRM(str, dirHelper);
     else if (s == "rmdir") command = new CommandRMDIR(str, dirHelper);
     else if (s == "install") command = new CommandINSTALL(str, dirHelper, &mapCom);
+    else if (s == "uninstall") command = new CommandUNINSTALL(str, dirHelper, &mapCom);
     else if (s == "exit") return -1;
     else if (iter != mapCom.end()) command = new CommandOther(str, dirHelper, dirHelper->initPath()+"/addons/"+s);
     else if (s.empty()) return -2;
