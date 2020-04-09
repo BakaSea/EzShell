@@ -59,6 +59,7 @@ int CommandRM::removeDir(string str) {
                 flag |= removeFile(str+"/"+file->d_name);
             }
         }
+        closedir(dir);
     } else {
         cout << "rm: cannot remove \'";
         for (int i = dirHelper->getPath().size()+1; i < str.size(); ++i) {

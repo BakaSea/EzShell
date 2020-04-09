@@ -15,7 +15,7 @@ UI::~UI() {
 
 void UI::show() {
     DirHelper *dirHelper = new DirHelper();
-    dirHelper->initPath();
+    dirHelper->setPath(dirHelper->initPath());
     command = new Command(dirHelper);
     string str;
     cout << "Welcome!" << endl;

@@ -1,13 +1,13 @@
 main:main.o UI.h UI.o Command.h Command.o CommandBase.h CommandBase.o CommandCP.h CommandCP.o CommandCMP.h CommandCMP.o \
 	CommandWC.h CommandWC.o CommandCAT.h CommandCAT.o CommandMAN.h CommandMAN.o CommandECHO.h CommandECHO.o \
 	CommandLS.h CommandLS.o CommandPWD.h CommandPWD.o CommandCD.h CommandCD.o CommandMKDIR.h CommandMKDIR.o \
-	CommandTOUCH.h CommandTOUCH.o CommandRM.h CommandRM.o CommandRMDIR.h CommandRMDIR.o \
-	WorkShell.h WorkShell.o DirHelper.h DirHelper.o
+	CommandTOUCH.h CommandTOUCH.o CommandRM.h CommandRM.o CommandRMDIR.h CommandRMDIR.o CommandOther.h CommandOther.o\
+	CommandINSTALL.h CommandINSTALL.o WorkShell.h WorkShell.o DirHelper.h DirHelper.o
 	g++ main.o UI.h UI.o Command.h Command.o CommandBase.h CommandBase.o CommandCP.h CommandCP.o CommandCMP.h CommandCMP.o \
 		CommandWC.h CommandWC.o CommandCAT.h CommandCAT.o CommandMAN.h CommandMAN.o CommandECHO.h CommandECHO.o \
 		CommandLS.h CommandLS.o CommandPWD.h CommandPWD.o CommandCD.h CommandCD.o CommandMKDIR.h CommandMKDIR.o \
-		CommandTOUCH.h CommandTOUCH.o CommandRM.h CommandRM.o CommandRMDIR.h CommandRMDIR.o \
-		WorkShell.h WorkShell.o DirHelper.h DirHelper.o -o EzShell
+		CommandTOUCH.h CommandTOUCH.o CommandRM.h CommandRM.o CommandRMDIR.h CommandRMDIR.o CommandOther.h CommandOther.o\
+		CommandINSTALL.h CommandINSTALL.o WorkShell.h WorkShell.o DirHelper.h DirHelper.o -o EzShell
 main.o:
 	g++ -c main.cpp
 UI.o:UI.cpp
@@ -46,6 +46,10 @@ CommandRM.o:CommandRM.cpp
 	g++ -c CommandRM.cpp
 CommandRMDIR.o:CommandRMDIR.cpp
 	g++ -c CommandRMDIR.cpp
+CommandOther.o:CommandOther.cpp
+	g++ -c CommandOther.cpp
+CommandINSTALL.o:CommandINSTALL.cpp
+	g++ -c CommandINSTALL.cpp
 clean:
 	rm *.o
 	rm EzShell

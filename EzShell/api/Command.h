@@ -3,7 +3,6 @@
 #include "DirHelper.h"
 #include "CommandBase.h"
 #include <string>
-#include <unordered_map>
 using namespace std;
 
 class Command {
@@ -15,7 +14,6 @@ public:
 private:
     CommandBase *command;
     DirHelper *dirHelper;
-    unordered_map<string, bool> mapCom;
 };
 
 #endif
