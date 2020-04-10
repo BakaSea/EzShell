@@ -45,8 +45,8 @@ void CommandCMP::run() {
         return;
     }
     struct stat path1, path2;
-    stat((dirHelper->getPath()+"/"+files[0]).c_str(), &path1);
-    stat((dirHelper->getPath()+"/"+files[1]).c_str(), &path2);
+    stat(dirHelper->getFilePath(files[0]).c_str(), &path1);
+    stat(dirHelper->getFilePath(files[1]).c_str(), &path2);
     if (S_ISDIR(path1.st_mode)) {
         cout << "cmp: " << files[0] << ": Is a directory" << endl;
         return;
@@ -55,7 +55,7 @@ void CommandCMP::run() {
         cout << "cmp: " << files[1] << ": Is a directory" << endl;
         return;
     }
-    ifstream file1(dirHelper->getPath()+"/"+files[0], ios::in | ios::binary), file2(dirHelper->getPath()+"/"+files[1], ios::in | ios::binary);
+    ifstream file1(dirHelper->getFilePath(files[0]), ios::in | ios::binary), file2(dirHelper->getFilePath(files[1]), ios::in | ios::binary);
     if (file1 && file2) {
         file1.seekg(0, ios::end);
         file2.seekg(0, ios::end);

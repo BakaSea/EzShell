@@ -37,12 +37,12 @@ bool CommandCAT::checkBlank(string str) {
 
 void CommandCAT::display(string str) {
     struct stat path;
-    stat((dirHelper->getPath()+"/"+str).c_str(), &path);
+    stat(dirHelper->getFilePath(str).c_str(), &path);
     if (S_ISDIR(path.st_mode)) {
         cout << "cat: " << str << ": Is a directory" << endl;
         return;
     } 
-    ifstream file(dirHelper->getPath()+"/"+str);
+    ifstream file(dirHelper->getFilePath(str));
     if (file) {
         string s = string();
         int curBlank = 0, preBlank = 0, num = 0;

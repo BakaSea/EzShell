@@ -24,9 +24,9 @@ void CommandTOUCH::run() {
         cout << "Try \'touch --help\' for more information." << endl;
     } else for (int i = 0; i < files.size(); ++i) {
         struct stat file;
-        stat((dirHelper->getPath()+"/"+files[i]).c_str(), &file);
+        stat(dirHelper->getFilePath(files[i]).c_str(), &file);
         if (S_ISDIR(file.st_mode)) continue;
-        ifstream in(dirHelper->getPath()+"/"+files[i], ios::in | ios::binary);
+        ifstream in(dirHelper->getFilePath(files[i]), ios::in | ios::binary);
         if (in) {
             in.seekg(0, ios::end);
             int size = in.tellg();
@@ -34,13 +34,13 @@ void CommandTOUCH::run() {
             char *buffer = new char[size];
             in.read(buffer, size);
             in.close();
-            ofstream out(dirHelper->getPath()+"/"+files[i], ios::out | ios::binary);
+            ofstream out(dirHelper->getFilePath(files[i]), ios::out | ios::binary);
             if (out) {
                 out.write(buffer, size);
                 out.close();
             } else cout << "Cannot touch " << files[i] << endl;
         } else {
-            ofstream out(dirHelper->getPath()+"/"+files[i]);
+            ofstream out(dirHelper->getFilePath(files[i]));
             if (out) {
                 out.close();
             } else cout << "Cannot touch " << files[i] << endl;

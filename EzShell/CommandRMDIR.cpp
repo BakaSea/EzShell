@@ -43,7 +43,7 @@ void CommandRMDIR::run() {
         cout << "Try \'rmdir --help\' for more information." << endl;
     } else for (int i = 0; i < files.size(); ++i) {
         struct stat cur;
-        stat((dirHelper->getPath()+"/"+files[i]).c_str(), &cur);
+        stat(dirHelper->getFilePath(files[i]).c_str(), &cur);
         if (S_ISDIR(cur.st_mode)) {
             if (_p) {
                 splitPath(files[i]);
@@ -52,7 +52,7 @@ void CommandRMDIR::run() {
                     for (int k = 0; k <= j; ++k) {
                         s += "/"+path[k];
                     }
-                    if (rmdir((dirHelper->getPath()+s).c_str())) {
+                    if (rmdir(files[i][0] == '/' ? s.c_str() : (dirHelper->getPath()+s).c_str())) {
                         cout << "rmdir: failed to remove \'";
                         for (int k = 1; k < s.size(); ++k) cout << s[k];
                         cout << "\'" << endl;
@@ -60,7 +60,7 @@ void CommandRMDIR::run() {
                     }
                 }
             } else {
-                if (rmdir((dirHelper->getPath()+"/"+files[i]).c_str())) {
+                if (rmdir(dirHelper->getFilePath(files[i]).c_str())) {
                     cout << "rmdir: failed to remove \'" << files[i] << "\'" << endl;
                 }
             }    

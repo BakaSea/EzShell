@@ -25,7 +25,7 @@ void CommandMKDIR::run() {
         return;
     }
     for (int i = 0; i < files.size(); ++i) {
-        if (mkdir((dirHelper->getPath()+"/"+files[i]).c_str(), 0755)) {
+        if (mkdir(dirHelper->getFilePath(files[i]).c_str(), 0755)) {
             cout << "mkdir: cannot create directory \'"+files[i]+"\'" << endl;
         }
     }

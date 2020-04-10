@@ -32,7 +32,7 @@ void WorkShell::run() {
             fileName.push_back(str[i]);
         }
     }
-    ifstream in(dirHelper->getPath()+"/"+fileName);
+    ifstream in(dirHelper->getFilePath(fileName));
     if (in) {
         string s;
         Command *command = new Command(dirHelper);

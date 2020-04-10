@@ -37,12 +37,12 @@ CommandWC::~CommandWC() {
 
 void CommandWC::count(Content &A) {
     struct stat path;
-    stat((dirHelper->getPath()+"/"+A.file).c_str(), &path);
+    stat(dirHelper->getFilePath(A.file).c_str(), &path);
     if (S_ISDIR(path.st_mode)) {
         cout << "wc: " << A.file << ": Is a directory" << endl;
         return;
     }
-    ifstream file(dirHelper->getPath()+"/"+A.file, ios::in | ios::binary);
+    ifstream file(dirHelper->getFilePath(A.file), ios::in | ios::binary);
     if (file) {
         file.seekg(0, ios::end);
         A.bytes = file.tellg();

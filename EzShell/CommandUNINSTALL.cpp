@@ -5,7 +5,9 @@ using namespace std;
 
 CommandUNINSTALL::CommandUNINSTALL(string str, DirHelper *dirHelper, unordered_map<string, bool> *mapCom) : 
     CommandBase("uninstall", str, dirHelper), mapCom(mapCom) {
-
+    help =
+"Usage: uninstall COMMAND...\n\
+Uninstall commands written by EzShell API";
 }
 
 CommandUNINSTALL::~CommandUNINSTALL() {

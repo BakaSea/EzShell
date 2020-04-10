@@ -42,7 +42,7 @@ void CommandCD::run() {
     if (!analyzeOpt()) return;
     if (files.empty()) files.push_back("~");
     splitPath(files[0]);
-    string cur = dirHelper->getPath();
+    string cur = files[0][0] == '/' ? "/" : dirHelper->getPath();
     bool flag = true;
     for (int i = 0; i < path.size(); ++i) {
         if (path[i] == "~") {

@@ -8,7 +8,9 @@ using namespace std;
 
 CommandINSTALL::CommandINSTALL(string str, DirHelper *dirHelper, unordered_map<string, bool> *mapCom) : 
     CommandBase("install", str, dirHelper), mapCom(mapCom) {
-
+    help =
+"Usage: install COMMAND FILE\n\
+Install a command written by EzShell API.";
 }
 
 CommandINSTALL::~CommandINSTALL() {
@@ -27,7 +29,7 @@ void CommandINSTALL::run() {
         if (iter != mapCom->end()) {
             cout << "install: " << files[0] << " exists!" << endl;
         } else {
-            if (!access((dirHelper->getPath()+"/"+files[1]).c_str(), X_OK)) {
+            if (!access(dirHelper->getFilePath(files[1]).c_str(), X_OK)) {
                 DIR *dir = opendir((dirHelper->initPath()+"/addons").c_str());
                 if (dir == NULL) {
                     if (mkdir((dirHelper->initPath()+"/addons").c_str(), 0755)) {
@@ -36,7 +38,7 @@ void CommandINSTALL::run() {
                     }
                 }
                 closedir(dir);
-                ifstream inAdd(dirHelper->getPath()+"/"+files[1], ios::in | ios::binary);
+                ifstream inAdd(dirHelper->getFilePath(files[1]), ios::in | ios::binary);
                 if (inAdd) {
                     inAdd.seekg(0, ios::end);
                     int size = inAdd.tellg();

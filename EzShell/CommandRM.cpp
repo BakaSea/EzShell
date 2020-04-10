@@ -24,23 +24,15 @@ CommandRM::~CommandRM() {
 
 int CommandRM::removeFile(string str) {
     if (_i) {
-        cout << "rm: remove \'";
-        for (int i = dirHelper->getPath().size()+1; i < str.size(); ++i) {
-            cout << str[i];
-        }
-        cout << "\'? ";
+        cout << "rm: remove \'" << str << "\'? ";
         string ans;
         getline(cin, ans);
-        if (!(ans.size() == 1 && (ans[0] == 'Y' || ans[0] == 'y'))) {
-            return 0;
+        if (!(ans == "Y" || ans == "y" || ans == "yes" || ans == "Yes" || ans == "YES")) {
+            return -1;
         }
     }
     if (remove(str.c_str())) {
-        cout << "rm: cannot remove \'";
-        for (int i = dirHelper->getPath().size()+1; i < str.size(); ++i) {
-            cout << str[i];
-        }
-        cout << "\': No such file or directory" << endl;
+        cout << "rm: cannot remove \'" << str << "\'" << endl;
         return -1;
     }
     return 0;
@@ -52,8 +44,10 @@ int CommandRM::removeDir(string str) {
     if (dir != NULL) {
         dirent *file;
         while (file = readdir(dir)) {
-            if (file->d_type == DT_DIR && strcmp(file->d_name, ".") && strcmp(file->d_name, "..")) {
-                flag |= removeDir(str+"/"+file->d_name);
+            if (file->d_type == DT_DIR) {
+                if (strcmp(file->d_name, ".") && strcmp(file->d_name, "..")) {
+                    flag |= removeDir(str+"/"+file->d_name);
+                }
             }
             if (file->d_type == DT_REG) {
                 flag |= removeFile(str+"/"+file->d_name);
@@ -61,22 +55,14 @@ int CommandRM::removeDir(string str) {
         }
         closedir(dir);
     } else {
-        cout << "rm: cannot remove \'";
-        for (int i = dirHelper->getPath().size()+1; i < str.size(); ++i) {
-            cout << str[i];
-        }
-        cout <<  "\': No such file or directory" << endl;
+        cout << "rm: cannot remove \'" << str << "\'" << endl;
     }
     if (flag) {
         if (_i) {
-            cout << "rm: remove directory \'";
-            for (int i = dirHelper->getPath().size()+1; i < str.size(); ++i) {
-                cout << str[i];
-            }
-            cout << "\'? ";
+            cout << "rm: remove directory \'" << str << "\'? ";
             string ans;
             getline(cin, ans);
-            if (!(ans.size() == 1 && (ans[0] == 'Y' || ans[0] == 'y'))) {
+            if (!(ans == "Y" || ans == "y" || ans == "yes" || ans == "Yes" || ans == "YES")) {
                 return -1;
             }
         }
@@ -90,13 +76,13 @@ void CommandRM::run() {
     if (!analyzeOpt()) return;
     for (int i = 0; i < files.size(); ++i) {
         struct stat dir;
-        stat((dirHelper->getPath()+"/"+files[i]).c_str(), &dir);
+        stat(dirHelper->getFilePath(files[i]).c_str(), &dir);
         if (S_ISDIR(dir.st_mode)) {
             if (_r) {
-                removeDir(dirHelper->getPath()+"/"+files[i]);
+                removeDir(dirHelper->getFilePath(files[i]));
             } else cout << "rm: cannot remove \'" << files[i] << "\': Is a directory" << endl;
         } else {
-            removeFile(dirHelper->getPath()+"/"+files[i]);
+            removeFile(dirHelper->getFilePath(files[i]));
         }
     }
 }
