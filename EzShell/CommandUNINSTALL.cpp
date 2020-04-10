@@ -20,7 +20,7 @@ void CommandUNINSTALL::run() {
     if (files.empty()) {
         cout << "uninstall: require commands" << endl;
     } else {
-        ofstream out(dirHelper->initPath()+"/addons/config.txt");
+        ofstream out("addons/config.txt");
         if (out) {
             for (int i = 0; i < files.size(); ++i) {
                 unordered_map<string, bool>::iterator iter = mapCom->find(files[i]);

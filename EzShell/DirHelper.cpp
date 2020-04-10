@@ -21,10 +21,10 @@ string DirHelper::getFilePath(string str) {
     return str[0] == '/' ? str : getPath()+"/"+str;
 }
 
-string DirHelper::initPath() {
+void DirHelper::initPath() {
     char cwd[257];
     getcwd(cwd, 257);
-    return string(cwd);
+    path = cwd;
 }
 
 void DirHelper::setPath(string str) {
@@ -32,6 +32,7 @@ void DirHelper::setPath(string str) {
 }
 
 string DirHelper::back(string str) {
+    if (str.empty()) return "/";
     string s = str;
     while (s[s.size()-1] != '/') {
         s.pop_back();

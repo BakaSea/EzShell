@@ -5,15 +5,20 @@ SYNOPSIS
        ls [OPTION]... [FILE]...
 
 DESCRIPTION
-       List information about the FILEs (the current directory by default).
+       List information about the FILEs (the current directory by default).  Sort entries alphabetically if none of -cftuvSUX nor --sort is specified.
 
-       -a     do not ignore entries starting with .
+       Mandatory arguments to long options are mandatory for short options too.
 
-       -A     do not list implied . and ..
+       -a, --all
+              do not ignore entries starting with .
+
+       -A, --almost-all
+              do not list implied . and ..
 
        -l     use a long listing format
 
-       -r     reverse order while sorting
+       -r, --reverse
+              reverse order while sorting
 
        -t     sort by modification time, newest first
 

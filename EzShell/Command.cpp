@@ -21,7 +21,7 @@ using namespace std;
 
 Command::Command(DirHelper *dirHelper) : dirHelper(dirHelper) {
     mapCom.clear();
-    ifstream in(dirHelper->initPath()+"/addons/config.txt");
+    ifstream in("addons/config.txt");
     if (in) {
         string s;
         while (in >> s) {
@@ -67,7 +67,7 @@ int Command::find(string str) {
     else if (s == "install") command = new CommandINSTALL(str, dirHelper, &mapCom);
     else if (s == "uninstall") command = new CommandUNINSTALL(str, dirHelper, &mapCom);
     else if (s == "exit") return -1;
-    else if (iter != mapCom.end()) command = new CommandOther(str, dirHelper, dirHelper->initPath()+"/addons/"+s);
+    else if (iter != mapCom.end()) command = new CommandOther(str, dirHelper, "addons/"+s);
     else if (s.empty()) return -2;
     else if (s.size() >= 2 && s[0] == '.' && s[1] == '/') return -3;
     return command != NULL;

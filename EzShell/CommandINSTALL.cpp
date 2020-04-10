@@ -30,9 +30,9 @@ void CommandINSTALL::run() {
             cout << "install: " << files[0] << " exists!" << endl;
         } else {
             if (!access(dirHelper->getFilePath(files[1]).c_str(), X_OK)) {
-                DIR *dir = opendir((dirHelper->initPath()+"/addons").c_str());
+                DIR *dir = opendir("addons");
                 if (dir == NULL) {
-                    if (mkdir((dirHelper->initPath()+"/addons").c_str(), 0755)) {
+                    if (mkdir("addons", 0755)) {
                         cout << "install: cannot create addons directory" << endl;
                         return;
                     }
@@ -46,7 +46,7 @@ void CommandINSTALL::run() {
                     inAdd.seekg(0, ios::beg);
                     inAdd.read(buffer, size);
                     inAdd.clear();
-                    ofstream outAdd(dirHelper->initPath()+"/addons/"+files[0]);
+                    ofstream outAdd("addons/"+files[0]);
                     if (outAdd) {
                         outAdd.write(buffer, size);
                         outAdd.close();
@@ -58,11 +58,11 @@ void CommandINSTALL::run() {
                     cout << "install: copy addons failed" << endl;
                     return;
                 }
-                if (chmod((dirHelper->initPath()+"/addons/"+files[0]).c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH)) {
+                if (chmod(("addons/"+files[0]).c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH)) {
                     cout << "install: permission denied" << endl;
                     return;
                 }
-                ofstream outCfg(dirHelper->initPath()+"/addons/config.txt");
+                ofstream outCfg("addons/config.txt");
                 if (outCfg) {
                     (*mapCom)[files[0]] = true;
                     for (unordered_map<string, bool>::iterator iter = mapCom->begin(); iter != mapCom->end(); ++iter) {

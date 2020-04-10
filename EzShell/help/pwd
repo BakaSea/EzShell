@@ -6,5 +6,3 @@ SYNOPSIS
 
 DESCRIPTION
        Print the full filename of the current working directory.
-
-       --help display this help and exit

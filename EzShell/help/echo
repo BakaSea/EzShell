@@ -2,7 +2,7 @@ NAME
        echo - display a line of text
 
 SYNOPSIS
-       echo [STRING]
+       echo [STRING]...
 
 DESCRIPTION
        Echo the STRING(s) to standard output.

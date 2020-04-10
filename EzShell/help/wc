@@ -11,14 +11,19 @@ DESCRIPTION
        The options below may be used to select which counts are printed, always in the following order: newline, word, character, byte,  maximum  line
        length.
 
-       -c     print the byte counts
+       -c, --bytes
+              print the byte counts
 
-       -m     print the character counts
+       -m, --chars
+              print the character counts
 
-       -l     print the newline counts
+       -l, --lines
+              print the newline counts
 
-       -L     print the maximum display width
+       -L, --max-line-length
+              print the maximum display width
 
-       -w     print the word counts
+       -w, --words
+              print the word counts
 
        --help display this help and exit

@@ -1,0 +1,8 @@
+NAME
+       uninstall - uninstall commands written by EzShell API
+
+SYNOPSIS
+       uninstall COMMAND...
+
+DESCRIPTION
+       Uninstall commands written by EzShell API.

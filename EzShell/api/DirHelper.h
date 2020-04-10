@@ -8,10 +8,13 @@ public:
     DirHelper();
     ~DirHelper();
     string getPath();
-    string initPath();
+    string getFilePath(string str);
+    void initPath();
     void setPath(string str);
     string back(string str);
     string backToUser();
+    string getFinalDir(string str);
+    int contain(string A, string B);
 private:
     string path;
 };

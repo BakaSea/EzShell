@@ -1,0 +1,8 @@
+NAME
+       install - install a command written by EzShell API
+
+SYNOPSIS
+       install COMMAND FILE
+
+DESCRIPTION
+       Install a command written by EzShell API into EzShell.

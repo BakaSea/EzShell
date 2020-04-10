@@ -9,8 +9,10 @@ DESCRIPTION
 
        Mandatory arguments to long options are mandatory for short options too.
 
-       -b     print differing bytes
+       -b, --print-bytes
+              print differing bytes
 
-       -l     output byte numbers and differing byte values
+       -l, --verbose
+              output byte numbers and differing byte values
 
        --help display this help and exit
