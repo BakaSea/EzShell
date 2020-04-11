@@ -103,7 +103,7 @@ void CommandWC::run() {
            total.bytes += contents[i].bytes;
            total.chars += contents[i].chars;
            total.maxLine = max(total.maxLine, contents[i].maxLine);
-        } else cout << "wc: " << contents[i].file << ": No such file or directory" << endl;
+        } else cout << "wc: failed to wc \'" << contents[i].file << "\'" << endl;
     }
     if (contents.size() > 1) {
         if (_l) cout << total.lines << ' ';

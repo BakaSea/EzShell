@@ -3,6 +3,8 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <iostream>
+#include <string.h>
+#include <errno.h>
 using namespace std;
 
 CommandRMDIR::CommandRMDIR(string str, DirHelper *dirHelper) : CommandBase("rmdir", str, dirHelper) {
@@ -55,13 +57,13 @@ void CommandRMDIR::run() {
                     if (rmdir(files[i][0] == '/' ? s.c_str() : (dirHelper->getPath()+s).c_str())) {
                         cout << "rmdir: failed to remove \'";
                         for (int k = 1; k < s.size(); ++k) cout << s[k];
-                        cout << "\'" << endl;
+                        cout << "\': " << strerror(errno) << endl;
                         break;
                     }
                 }
             } else {
                 if (rmdir(dirHelper->getFilePath(files[i]).c_str())) {
-                    cout << "rmdir: failed to remove \'" << files[i] << "\'" << endl;
+                    cout << "rmdir: failed to remove \'" << files[i] << "\': " << strerror(errno) << endl;
                 }
             }    
         } else {

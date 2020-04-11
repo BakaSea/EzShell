@@ -1,6 +1,8 @@
 #include "CommandUNINSTALL.h"
 #include <iostream>
 #include <fstream>
+#include <string.h>
+#include <errno.h>
 using namespace std;
 
 CommandUNINSTALL::CommandUNINSTALL(string str, DirHelper *dirHelper, unordered_map<string, bool> *mapCom) : 
@@ -36,7 +38,7 @@ void CommandUNINSTALL::run() {
             }
             out.close();
         } else {
-            cout << "uninstall: cannot modify config" << endl;
+            cout << "uninstall: cannot modify config: " << strerror(errno) << endl;
         }
     }
 }

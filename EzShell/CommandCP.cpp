@@ -4,6 +4,7 @@
 #include <fstream>
 #include <dirent.h>
 #include <string.h>
+#include <errno.h>
 #include "CommandMAN.h"
 using namespace std;
 
@@ -77,7 +78,7 @@ void CommandCP::copyFile(string src, string dest) {
                 cout << "cp: overwrite \'" << dest << "\'? ";
                 string ans;
                 getline(cin, ans);
-                if (!(ans.size() == 1 && (ans[0] == 'Y' || ans[0] == 'y'))) {
+                if (!(ans == "Y" || ans == "y" || ans == "yes" || ans == "Yes" || ans == "YES")) {
                     tryOut.close();
                     return;
                 }
@@ -98,10 +99,10 @@ void CommandCP::copyFile(string src, string dest) {
             stat(src.c_str(), &statSrc);
             chmod(dest.c_str(), statSrc.st_mode);
         } else {
-            cout << "cp: copy file to \'" << dest << "\' failed" << endl;
+            cout << "cp: \'" << dest << "\': " << strerror(errno) << endl;
         }
     } else {
-        cout << "cp: cannot stat \'" << src << "\'" << endl;
+        cout << "cp: \'" << src << "\': " << strerror(errno) << endl;
     }
 }
 
@@ -116,7 +117,7 @@ void CommandCP::copyDir(string src, string direct) {
                     DIR *dirCur = opendir(pathDir.c_str());
                     if (dirCur == NULL) {
                         if (mkdir(pathDir.c_str(), 0755)) {
-                            cout << "cp: create directory failed" << endl;
+                            cout << "cp: cannot create a directory \'" << pathDir << "\'" << endl;
                             return;
                         }
                     }
@@ -129,7 +130,7 @@ void CommandCP::copyDir(string src, string direct) {
         }
         closedir(dirSrc);
     } else {
-        cout << "cp: cannot stat \'" << src << "\': No such file or directory" << endl;
+        cout << "cp: \'" << src << "\': " << strerror(errno) << endl;
     }
 }
 

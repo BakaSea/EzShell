@@ -69,7 +69,7 @@ int Command::find(string str) {
     else if (s == "exit") return -1;
     else if (iter != mapCom.end()) command = new CommandOther(str, dirHelper, "addons/"+s);
     else if (s.empty()) return -2;
-    else if (s.size() >= 2 && s[0] == '.' && s[1] == '/') return -3;
+    else if (s == "sh" || (s.size() >= 2 && s[0] == '.' && s[1] == '/')) return -3;
     return command != NULL;
 }
 

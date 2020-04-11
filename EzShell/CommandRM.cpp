@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <string.h>
+#include <errno.h>
 using namespace std;
 
 CommandRM::CommandRM(string str, DirHelper *dirHelper) : CommandBase("rm", str, dirHelper) {
@@ -32,7 +33,7 @@ int CommandRM::removeFile(string str) {
         }
     }
     if (remove(str.c_str())) {
-        cout << "rm: cannot remove \'" << str << "\'" << endl;
+        cout << "rm: " << strerror(errno) << endl;
         return -1;
     }
     return 0;
@@ -55,7 +56,7 @@ int CommandRM::removeDir(string str) {
         }
         closedir(dir);
     } else {
-        cout << "rm: cannot remove \'" << str << "\'" << endl;
+        cout << "rm: " << strerror(errno) << endl;
     }
     if (flag) {
         if (_i) {

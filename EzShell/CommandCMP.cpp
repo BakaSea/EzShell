@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <sys/stat.h>
+#include <string.h>
+#include <errno.h>
 #include "CommandMAN.h"
 using namespace std;
 
@@ -114,7 +116,7 @@ void CommandCMP::run() {
         file1.close();
         file2.close();
     } else {
-        if (!file1) cout << "cmp: " << files[0] << ": No such file or directory" << endl;
-        if (!file2) cout << "cmp: " << files[1] << ": No such file or directory" << endl;
+        if (!file1) cout << "cmp: " << files[0] << ": " << strerror(errno) << endl;
+        if (!file2) cout << "cmp: " << files[1] << ": " << strerror(errno) << endl;
     }
 }

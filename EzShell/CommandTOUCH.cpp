@@ -3,6 +3,8 @@
 #include <iostream>
 #include <fstream>
 #include <sys/stat.h>
+#include <string.h>
+#include <errno.h>
 using namespace std;
 
 CommandTOUCH::CommandTOUCH(string str, DirHelper *dirHelper) : CommandBase("touch", str, dirHelper) {
@@ -38,12 +40,12 @@ void CommandTOUCH::run() {
             if (out) {
                 out.write(buffer, size);
                 out.close();
-            } else cout << "Cannot touch " << files[i] << endl;
+            } else cout << "touch: \'" << files[i] << "\': " << strerror(errno) << endl;
         } else {
             ofstream out(dirHelper->getFilePath(files[i]));
             if (out) {
                 out.close();
-            } else cout << "Cannot touch " << files[i] << endl;
+            } else cout << "touch: \'" << files[i] << "\': " << strerror(errno) << endl;
         }
     }
 }

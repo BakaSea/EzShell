@@ -38,6 +38,12 @@ void CommandINSTALL::run() {
                     }
                 }
                 closedir(dir);
+                struct stat path;
+                stat(dirHelper->getFilePath(files[1]).c_str(), &path);
+                if (S_ISDIR(path.st_mode)) {
+                    cout << "install: \'" << files[1] << "\': is a directory" << endl;
+                    return;
+                }
                 ifstream inAdd(dirHelper->getFilePath(files[1]), ios::in | ios::binary);
                 if (inAdd) {
                     inAdd.seekg(0, ios::end);

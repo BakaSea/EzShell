@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include <sys/stat.h>
+#include <string.h>
+#include <errno.h>
 #include "CommandMAN.h"
 using namespace std;
 
@@ -39,9 +41,9 @@ void CommandCAT::display(string str) {
     struct stat path;
     stat(dirHelper->getFilePath(str).c_str(), &path);
     if (S_ISDIR(path.st_mode)) {
-        cout << "cat: " << str << ": Is a directory" << endl;
+        cout << "cat: \'" << str << "\': Is a directory" << endl;
         return;
-    } 
+    }
     ifstream file(dirHelper->getFilePath(str));
     if (file) {
         string s = string();
@@ -57,7 +59,7 @@ void CommandCAT::display(string str) {
             preBlank = curBlank;
         }
         file.close();
-    } else cout << "cat: " << str << ": No such file or directory" << endl;
+    } else cout << "cat: \'" << str << "\': " << strerror(errno) << endl;
 }
 
 void CommandCAT::run() {
