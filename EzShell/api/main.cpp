@@ -1,13 +1,12 @@
-#include "Command.h"
 #include "DirHelper.h"
+#include "CommandBase.h"
 
 int main(int argc, char *argv[]) {
     if (argc < 3) return -1;
     DirHelper *dirHelper = new DirHelper();
     dirHelper->setPath(argv[2]);
-    Command *command = new Command(dirHelper);
-    int k = command->find(argv[1]);
-    if (k) command->run();
-    else return -1;
+    CommandBase *command = NULL;;
+    //TODO: command = new CommandXXX(argv[1], dirHelper);
+    command->run();
     return 0;
 }

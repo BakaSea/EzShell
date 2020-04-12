@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <pwd.h>
 #include <grp.h>
+#include <iomanip>
 #include "CommandMAN.h"
 using namespace std;
 
@@ -115,7 +116,7 @@ void CommandLS::print(DirFile file) {
         cout << getgrgid(file.status.st_gid)->gr_name << " ";
         cout << file.status.st_size << " ";
         tm *tim = localtime(&file.status.st_mtim.tv_sec);
-        cout << month[tim->tm_mon] << " " << tim->tm_mday << " " << tim->tm_hour << ":" << tim->tm_min << " ";
+        cout << month[tim->tm_mon] << " " << tim->tm_mday << " " << put_time(tim, "%H:%M") << " ";
     }
     if (file.type == DT_DIR) cout << "\033[1m\033[34m" << file.name << "\033[0m";
     else cout << file.name;
