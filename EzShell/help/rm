@@ -2,16 +2,10 @@ NAME
        rm - remove files or directories
 
 SYNOPSIS
-       rm [OPTION]... [FILE]...
+       rm [OPTION]... FILE...
 
 DESCRIPTION
        This manual page documents the GNU version of rm.  rm removes each specified file.  By default, it does not remove directories.
-
-       If  the  -I or --interactive=once option is given, and there are more than three files or the -r, -R, or --recursive are given, then rm prompts
-       the user for whether to proceed with the entire operation.  If the response is not affirmative, the entire command is aborted.
-
-       Otherwise, if a file is unwritable, standard input is a terminal, and the -f or --force option is not given, or the -i or  --interactive=always
-       option is given, rm prompts the user for whether to remove the file.  If the response is not affirmative, the file is skipped.
 
 OPTIONS
        Remove (unlink) the FILE(s).
