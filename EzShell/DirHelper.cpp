@@ -17,7 +17,7 @@ string DirHelper::getPath() {
 }
 
 string DirHelper::getFilePath(string str) {
-    if (str.empty()) return "";
+    if (str.empty()) return getPath();
     return str[0] == '/' ? str : getPath()+"/"+str;
 }
 
@@ -79,7 +79,7 @@ int DirHelper::contain(string A, string B) {
     if (s.size()) pathA.push_back(s);
     s.clear();
     for (int i = 0; i < B.size(); ++i) {
-        if (A[i] == '/') {
+        if (B[i] == '/') {
             if (s.empty()) pathB.push_back(".");
             else pathB.push_back(s);
             s.clear();
@@ -105,5 +105,6 @@ int DirHelper::contain(string A, string B) {
     for (int i = 0; i < sa.size(); ++i) {
         if (sa[i] != sb[i]) return 0;
     }
+    if (sb[sa.size()] != '/') return 0;
     return 1;
 }

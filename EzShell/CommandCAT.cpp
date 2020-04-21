@@ -31,10 +31,8 @@ CommandCAT::~CommandCAT() {
 }
 
 bool CommandCAT::checkBlank(string str) {
-    for (int i = 0; i < str.size(); ++i) {
-        if (str[i] != ' ' && str[i] != '\t') return 0;
-    }
-    return 1;
+    if (str.empty()) return 1;
+    return 0;
 }
 
 void CommandCAT::display(string str) {
@@ -51,8 +49,9 @@ void CommandCAT::display(string str) {
         while (getline(file, s)) {
             curBlank = checkBlank(s);
             if (_s && curBlank && preBlank) continue;
-            if (_b && !curBlank) cout << ++num << ' ';
-            else if (_n) cout << ++num << ' ';
+            if (_b) {
+                if (!curBlank) cout << ++num << ' ';
+            } else if (_n) cout << ++num << ' ';
             cout << s;
             if (_E) cout << "$";
             cout << endl;

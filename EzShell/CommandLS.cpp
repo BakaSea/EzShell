@@ -119,6 +119,7 @@ void CommandLS::print(DirFile file) {
         cout << month[tim->tm_mon] << " " << tim->tm_mday << " " << put_time(tim, "%H:%M") << " ";
     }
     if (file.type == DT_DIR) cout << "\033[1m\033[34m" << file.name << "\033[0m";
+    else if (file.status.st_mode & S_IXUSR) cout << "\033[1m\033[32m" << file.name << "\033[0m";
     else cout << file.name;
     if (_l) cout << endl;
     else cout << " ";

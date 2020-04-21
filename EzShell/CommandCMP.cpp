@@ -111,7 +111,9 @@ void CommandCMP::run() {
                     }
                 }
             }
-            cout << "cmp: EOF on " << (size1 < size2 ? files[0] : files[1]) << " after byte " << size << endl; 
+            if (size1 != size2) {
+                cout << "cmp: EOF on " << (size1 < size2 ? files[0] : files[1]) << " after byte " << size << endl; 
+            }
         }
         file1.close();
         file2.close();

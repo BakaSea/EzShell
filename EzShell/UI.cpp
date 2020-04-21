@@ -18,7 +18,6 @@ void UI::show() {
     dirHelper->initPath();
     command = new Command(dirHelper);
     string str;
-    cout << "Welcome!" << endl;
     cout << "$ ";
     while (getline(cin, str)) {
         int k = command->find(str);
